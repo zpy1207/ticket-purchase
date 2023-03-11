@@ -1,0 +1,236 @@
+* {
+  --white: #fff;
+  --black: #000;
+  --gray-200: #BEC6CC;
+  --gray-300: #959EA6;
+  --gray-500: #4B5259;
+  --gray-600: #2B2F33;
+  --primary: #FDB713;
+  --shadow-sm: 0 1px 1px -1px rgba(0, 0, 0, .08);
+  --border-1: rgba(0, 0, 0, .12);
+}
+
+body {
+  text-align: right;
+  line-height: 1.55;
+  overflow: overlay;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.a-card {
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  border: solid 1px var(--border-1);
+  background-color: var(--white);
+}
+
+.a-container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.a-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: .875rem;
+  width: 100%;
+  font-weight: 400;
+  padding: 0 8px;
+  background-clip: padding-box;
+  color: var(--gray-300);
+  -webkit-appearance: none;
+  appearance: none;
+  line-height: 1.4rem;
+  height: 3rem;
+
+  .is-first-input {
+    border-right-width: 0;
+  }
+
+  .is-last-input {
+    border-left-width: 0;
+  }
+
+  input {
+    height: 100%;
+    width: 100%;
+    border: 0;
+    padding: 6px 8px;
+    background: none;
+    outline: none;
+    appearance: none;
+    caret-color: inherit;
+    border-radius: 8px;
+    color: var(--gray-600);
+    font-size: inherit;
+  }
+}
+
+.a-input__input {
+  bottom: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  border: 1px solid var(--gray-200);
+}
+
+.a-input__label {
+  display: inline-block;
+  margin: 0;
+  transform-origin: right;
+  margin-right: var(--prepend-size);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 4px 5px;
+  z-index: 1;
+}
+
+.a-input-group {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.btn {
+  background-color: transparent;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  --padding-inline: .25rem;
+  padding: 0.25rem var(--padding-inline);
+  --button-size: auto;
+  min-height: var(--button-size);
+  border: solid 1px var(--border-1);
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  --outline-width: 2px;
+  outline: var(--outline-width) none var(--grays-500);
+  outline-offset: calc(var(--outline-width) * -1);
+  transition-duration: .2s;
+  transition-timing-function: ease;
+  transition-property: background-color,border-color,opacity;
+}
+
+.is-solid-primary {
+  background-color: var(--primary);
+  color: var(--black);
+}
+
+.is-lg {
+  --padding-inline: 1rem;
+  --button-size: 3rem;
+  font-size: 1rem;
+}
+
+.is-block {
+  display: flex;
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.items-stretch {
+  align-items: stretch;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.products-box {
+  position: relative;
+  margin-bottom: 2rem;
+  z-index: 20;
+  padding: 2.25rem 0 2.25rem;
+  margin-top: -90px;
+
+  .tab-view {
+    padding: 0 2.25rem;
+    z-index: 10;
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.w-full {
+  width: 100%;
+}
+
+@media screen and (min-width: 360px) {
+  .a-container {
+    max-width: none;
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .a-container {
+    max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .a-container {
+    max-width: 980px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .a-container {
+    max-width: 1200px;
+  }
+}
+
+
+
+
+
+
+
+// .input {
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+//   width: 100%;
+//   font-weight: 400;
+//   padding: 0 8px;
+//   background-clip: padding-box;
+//   color: grey;
+//   appearance: none;
+//   line-height: 1.4rem;
+//   height: 2.5rem;
+// }
+
+// .input-box__input {
+//   bottom: 0;
+//   right: 0;
+//   top: 0;
+//   width: 100%;
+//   position: absolute;
+//   display: flex;
+//   flex-wrap: nowrap;
+//   align-items: center;
+// }

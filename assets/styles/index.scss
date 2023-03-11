@@ -1,0 +1,93 @@
+@import "./main.scss";
+
+.index-page__header {
+  display: flex;
+  background-color: antiquewhite;
+  height: 10vh;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
+
+  .index-page__header-icon {
+    font-size: 1.8rem;
+    padding-right: 10px;
+  }
+
+  .header-text {
+    font-size: 1.4rem;
+    // background-color: red;
+  }
+}
+
+.index-page__bg {
+  position: relative;
+  background-color: white;
+  height: 320px;
+  z-index: -1;
+
+  img {
+    position: absolute;
+    display: block;
+    width: 100%;
+    object-fit: contain;
+  }
+}
+
+.input-date {
+  width: 100%;
+
+  .el-input__inner {
+    border: 0px solid ;
+  }
+}
+
+.input-group-swap-btn {
+  position: relative;
+  display: flex;
+  align-self: stretch;
+  flex: 0 0 auto;
+
+  button {
+    border: 1px solid var(--gray-200);
+    border-radius: 50%;
+    background: var(--white);
+    width: 2rem;
+    height: 2rem;
+    margin: 8px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-500);
+    z-index: 1;
+  }
+}
+
+.input-group-swap-btn:before, .input-group-swap-btn:after {
+  position: absolute;
+  content: '';
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 50%;
+  border: 1px solid var(--gray-200);
+  border-right-width: 0;
+  transition: border-color linear .15s;
+}
+
+.input-group-swap-btn:after {
+  left: 0;
+  right: 50%;
+  border-left-width: 0;
+}
+
+
+
+.tab-view {
+  position: relative;
+  transition: height .3s ease;
+  overflow: auto;
+  height: auto;
+}
+
+
