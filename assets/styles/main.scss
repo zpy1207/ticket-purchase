@@ -163,10 +163,6 @@ body {
   padding: 2.25rem 0 2.25rem;
   margin-top: -90px;
 
-  .tab-view {
-    padding: 0 2.25rem;
-    z-index: 10;
-  }
 }
 
 .relative {
@@ -206,31 +202,3 @@ body {
 
 
 
-
-
-
-
-// .input {
-//   position: relative;
-//   display: flex;
-//   align-items: center;
-//   width: 100%;
-//   font-weight: 400;
-//   padding: 0 8px;
-//   background-clip: padding-box;
-//   color: grey;
-//   appearance: none;
-//   line-height: 1.4rem;
-//   height: 2.5rem;
-// }
-
-// .input-box__input {
-//   bottom: 0;
-//   right: 0;
-//   top: 0;
-//   width: 100%;
-//   position: absolute;
-//   display: flex;
-//   flex-wrap: nowrap;
-//   align-items: center;
-// }
