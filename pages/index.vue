@@ -2,8 +2,11 @@
   <div class="index-page">
     <div class="index-page__header">
       <img class="index-page__header-logo">
-      <i class="el-icon-user index-page__header-icon"></i>
-      <span class="header-text">登录或注册</span>
+      <div class="index-page__login" @click="onLogin">
+        <i class="el-icon-user index-page__header-icon" style="cursor: pointer;"></i>
+        <span class="login-or-register">登录或注册</span>
+      </div>
+
       <!-- <i class="el-icon-notebook-2 index-page__header-icon"></i>
       <span>跟踪订单</span> -->
     </div>
@@ -20,26 +23,42 @@
       </div>
     </div>
   </main>
+  <div v-if="showLogin">
+    <SelfModal
+      @closeModal="closeModal"
+    ></SelfModal>
+  </div>
+
 
   </div>
 </template>
 
 <script>
 import SearchTab from '../components/SearchTab.vue'
+import SelfModal from '../components/SelfModal.vue'
+
 
 export default {
   name: 'IndexPage',
   components: {
-    SearchTab
+    SearchTab,
+    SelfModal
   },
   data() {
     return {
-
+      showLogin: false
     }
   },
   methods: {
+    closeModal() {
+      this.showLogin = false
+    },
     onSearch() {
       console.log('onSearch')
+    },
+    onLogin () {
+      this.showLogin = true
+      console.log('login')
     }
   }
 }
