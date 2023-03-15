@@ -8,10 +8,10 @@
         </button>
         <!-- <form action="#" class="auth-form"> -->
           <h3 class="h3">
-            <font style="vertical-align: inherit;">登录或注册</font>
+            <font style="vertical-align: inherit;">{{ currentAction }}</font>
           </h3>
           <h4>
-            <font style="vertical-align: inherit;">请输入账号</font>
+            <font style="vertical-align: inherit;">{{ inputHint }}</font>
           </h4>
           <div class="a-input mb-5 text-right has-append is-lg">
             <span class="a-input__input">
@@ -32,10 +32,48 @@
               <font style="vertical-align: inherit;">{{ errMessage }}</font>
             </span>
           </div>
+          <div class="a-input mb-5 text-right has-append is-lg">
+            <span class="a-input__input">
+              <input
+                v-model="psd"
+                type="password"
+                @focus="onFocusPsd"
+                @blur="onBlurPsd"
+              >
+            </span>
+            <!-- <fieldset>
+              <legend style="width: 68px;"></legend>
+            </fieldset> -->
+            <label class="a-input__label">
+              <font style="vertical-align: inherit;">{{ labelPsd }}</font>
+            </label>
+          </div>
+          <div
+            v-if="!isLogin"
+            class="a-input mb-5 text-right has-append is-lg"
+          >
+            <span class="a-input__input">
+              <input
+                v-model="confirmPsd"
+                type="password"
+                @focus="onFocusConfirmPsd"
+                @blur="onBlurConfirmPsd"
+              >
+            </span>
+            <!-- <fieldset>
+              <legend style="width: 68px;"></legend>
+            </fieldset> -->
+            <label class="a-input__label">
+              <font style="vertical-align: inherit;">{{ labelConfirmPsd }}</font>
+            </label>
+          </div>
           <!-- <p class="flex text-right text-2 text-grays-500 mb-4"></p> -->
           <div class="text-center auth-actions">
             <button class="btn is-lg is-solid-secondary is-block is-disabled py-3 mb-4" @click="onSubmit">
-              <font style="vertical-align: inherit;">确认并接收验证码</font>
+              <font style="vertical-align: inherit;">{{ labelButton }}</font>
+            </button>
+            <button class="btn is-md is-link" @click="onClickLink">
+              <font style="vertical-align: inherit;">{{ linkMessage }}</font>
             </button>
           </div>
         <!-- </form> -->
@@ -49,20 +87,53 @@ export default {
   name: "SelfModal",
   data() {
     return {
+      confirmPsd: '',
       errMessage: '',
+      isLogin: true,
       mobileNumber: "",
-      labelMobile: '电话号码'
+      labelConfirmPsd: '请再次输入密码',
+      labelMobile: '电话号码',
+      labelPsd: '密码',
+      psd: ''
+    }
+  },
+  computed: {
+    currentAction() {
+      return this.isLogin ? "登录" : '注册'
+    },
+    labelButton() {
+      return this.isLogin ? "确认并登录" : '确认并注册'
+    },
+    linkMessage() {
+      return this.isLogin ? "还未有账号？去注册" : '已有账号？去登录'
+    },
+    inputHint() {
+      return this.isLogin ? "请输入账号和密码" : '请填写注册信息'
     }
   },
   methods: {
     closeModal() {
       this.$emit('closeModal')
     },
+    onClickLink() {
+      this.isLogin = !this.isLogin
+    },
+    onFocusConfirmPsd() {
+      this.labelConfirmPsd = ''
+    },
     onFocusMobile() {
       this.labelMobile = ''
     },
+    onFocusPsd() {
+      this.labelPsd = ''
+    },
     onSubmit() {
       console.log('submit mobile number', this.mobileNumber)
+    },
+    onBlurConfirmPsd() {
+      if (!this.confirmPsd) {
+        this.labelConfirmPsd = "请再次输入密码"
+      }
     },
     onBlurMobile() {
       if (!this.mobileNumber) {
@@ -72,6 +143,11 @@ export default {
         this.errMessage = "请输入正确的电话号码"
       } else {
         this.errMessage = ''
+      }
+    },
+    onBlurPsd() {
+      if (!this.psd) {
+        this.labelPsd = "密码"
       }
     }
   }

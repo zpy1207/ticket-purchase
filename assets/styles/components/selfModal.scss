@@ -114,6 +114,14 @@
   font-size: 1rem;
 }
 
+.btn.is-link {
+  --button-size: initial;
+  color: var(--secondary-400);
+  border-color: transparent;
+  padding: 2px 5px;
+  box-shadow: none;
+}
+
 .btn.is-solid-secondary {
   background-color: var(--secondary-400);
   color: var(--white);
