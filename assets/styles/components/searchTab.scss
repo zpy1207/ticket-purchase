@@ -1,1 +1,11 @@
-@import "./../main.scss";
+@import "./../index.scss";
+
+.input-date {
+  span {
+    text-align: center;
+  }
+}
+
+.el-date-table td span {
+  text-align: center;
+}

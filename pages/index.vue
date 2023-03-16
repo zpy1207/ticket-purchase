@@ -1,19 +1,12 @@
 <template>
   <div class="index-page">
-    <div class="index-page__header">
-      <img class="index-page__header-logo">
-      <div class="index-page__login" @click="onLogin">
-        <i class="el-icon-user index-page__header-icon" style="cursor: pointer;"></i>
-        <span class="login-or-register">登录或注册</span>
-      </div>
-
-      <!-- <i class="el-icon-notebook-2 index-page__header-icon"></i>
-      <span>跟踪订单</span> -->
-    </div>
-
+  <header-tab
+    @onLogin="onLogin"
+  ></header-tab>
   <main>
     <div class="index-page__bg">
-      <img class="index-page__bg-pic" src="https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp" alt="airplane">
+      <!-- <img class="index-page__bg-pic" src="https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp" alt="airplane"> -->
+      <img class="index-page__bg-pic" src="../static/picheader.webp" alt="airplane">
     </div>
     <div class="index-page__search-container a-container">
       <div class="search-bar a-card products-box">
@@ -29,20 +22,20 @@
     ></SelfModal>
   </div>
 
-
   </div>
 </template>
 
 <script>
 import SearchTab from '../components/SearchTab.vue'
 import SelfModal from '../components/SelfModal.vue'
-
+import HeaderTab from '~/components/HeaderTab.vue'
 
 export default {
-  name: 'IndexPage',
+  name: 'HomePage',
   components: {
     SearchTab,
-    SelfModal
+    SelfModal,
+    HeaderTab
   },
   data() {
     return {
@@ -54,11 +47,11 @@ export default {
       this.showLogin = false
     },
     onSearch() {
-      console.log('onSearch')
+      // console.log('onSearch')
     },
     onLogin () {
       this.showLogin = true
-      console.log('login')
+      // console.log('login')
     }
   }
 }

@@ -29,7 +29,7 @@
               <font style="vertical-align: inherit;">{{ labelMobile }}</font>
             </label>
             <span class="help-text is-invalid">
-              <font style="vertical-align: inherit;">{{ errMessage }}</font>
+              <font style="vertical-align: inherit;">{{ errMessageMobile }}</font>
             </span>
           </div>
           <div class="a-input mb-5 text-right has-append is-lg">
@@ -66,6 +66,9 @@
             <label class="a-input__label">
               <font style="vertical-align: inherit;">{{ labelConfirmPsd }}</font>
             </label>
+            <span class="help-text is-invalid">
+              <font style="vertical-align: inherit;">{{ errMessagePsd }}</font>
+            </span>
           </div>
           <!-- <p class="flex text-right text-2 text-grays-500 mb-4"></p> -->
           <div class="text-center auth-actions">
@@ -88,7 +91,8 @@ export default {
   data() {
     return {
       confirmPsd: '',
-      errMessage: '',
+      errMessageMobile: '',
+      errMessagePsd: '',
       isLogin: true,
       mobileNumber: "",
       labelConfirmPsd: '请再次输入密码',
@@ -128,11 +132,14 @@ export default {
       this.labelPsd = ''
     },
     onSubmit() {
-      console.log('submit mobile number', this.mobileNumber)
+      // console.log('submit mobile number', this.mobileNumber)
     },
     onBlurConfirmPsd() {
       if (!this.confirmPsd) {
         this.labelConfirmPsd = "请再次输入密码"
+      }
+      if (this.confirmPsd !== this.psd) {
+        this.errMessagePsd = "两次输入的密码不一致"
       }
     },
     onBlurMobile() {
@@ -140,9 +147,9 @@ export default {
         this.labelMobile = "电话号码"
       }
       if (this.mobileNumber && !isMobile(this.mobileNumber)) {
-        this.errMessage = "请输入正确的电话号码"
+        this.errMessageMobile = "请输入正确的电话号码"
       } else {
-        this.errMessage = ''
+        this.errMessageMobile = ''
       }
     },
     onBlurPsd() {

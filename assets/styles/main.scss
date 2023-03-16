@@ -16,7 +16,7 @@
 body {
   text-align: right;
   line-height: 1.55;
-  overflow: overlay;
+  // overflow: overlay;
   max-width: 100%;
   margin: 0;
   padding: 0;
@@ -52,10 +52,14 @@ body {
 
   .is-first-input {
     border-right-width: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   .is-last-input {
     border-left-width: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   input {
@@ -70,6 +74,7 @@ body {
     border-radius: 8px;
     color: var(--gray-600);
     font-size: inherit;
+    z-index: 20;
   }
 }
 
@@ -83,6 +88,7 @@ body {
   flex-wrap: nowrap;
   align-items: center;
   border: 1px solid var(--gray-200);
+  border-radius: 5px;
 }
 
 .a-input__label {

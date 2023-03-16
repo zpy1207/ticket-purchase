@@ -11,6 +11,7 @@
   align-items: center;
   justify-content: flex-end;
   padding: 20px;
+  min-height: 50px;
 
   .index-page__header-icon {
     font-size: 1.8rem;
@@ -41,6 +42,10 @@
 
   .el-input__inner {
     border: 0px solid ;
+  }
+
+  .el-input__icon {
+    line-height: 35px;
   }
 }
 
@@ -89,7 +94,7 @@
 .tab-view {
   position: relative;
   transition: height .3s ease;
-  overflow: auto;
+  // overflow: auto;
   height: auto;
 }
 
