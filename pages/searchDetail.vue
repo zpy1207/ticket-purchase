@@ -9,18 +9,22 @@
         </div>
       </div>
     </div>
+
+    <ticket-card></ticket-card>
   </div>
 </template>
 
 <script>
 import SearchTab from '../components/SearchTab.vue'
 import HeaderTab from '~/components/HeaderTab.vue'
+import TicketCard from '~/components/TicketCard.vue'
 
 export default {
   name: 'SearchDetailPage',
   comments: {
     HeaderTab,
     SearchTab,
+    TicketCard
   },
   data() {
     return {
