@@ -1,7 +1,7 @@
 <template>
   <div class="ticketCardContainer">
     <div class="ticketCardLayout">
-      <div class="ticketCard">
+      <div class="ticketCard" @click="onCollapse">
         <div class="company itrTxtPair">
           <div class="bt_focusText">
             航空公司
@@ -17,10 +17,10 @@
           </div>
         </div>
         <div class="itrTxtPair">
-          <button class="btn is-solid-secondary btn-choose" >
+          <button class="btn is-solid-secondary btn-choose" @click.stop="onChoose">
             <font style="vertical-align: inherit;">choose</font>
           </button>
-          <div class="btn icon" @click="onCollapse">
+          <div class="btn icon">
             <i :class="classIcon"></i>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default {
   name: 'TicketCard',
   data() {
     return {
-      showDetail: true
+      showDetail: false
     }
   },
   computed: {
@@ -98,7 +98,11 @@ export default {
     }
   },
   methods: {
+    onChoose() {
+      console.log('choose')
+    },
     onCollapse() {
+      console.log(this.showDetail)
       this.showDetail = !this.showDetail
     }
   }

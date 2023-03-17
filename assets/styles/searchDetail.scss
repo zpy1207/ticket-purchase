@@ -18,6 +18,14 @@
     height: auto;
 }
 
+.choosePane {
+  padding-right: 40px;
+  min-width: 300px;
+  max-width: 300px;
+  align-self: flex-start;
+  min-height: 300px;
+}
+
 .collapsed-search-form {
   position: sticky;
   top: 0;
@@ -26,6 +34,10 @@
   padding: 20px 0;
   -webkit-animation: expand .15s cubic-bezier(.65,.05,.36,1);
   animation: expand .15s cubic-bezier(.65,.05,.36,1);
+}
+
+.mainLayout {
+  padding-top: 40px;
 }
 
 .relative {

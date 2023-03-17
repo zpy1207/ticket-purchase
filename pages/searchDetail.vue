@@ -4,13 +4,32 @@
 
     <div class="relative sticky-search-position">
       <div class="a-container">
-        <div class="collapsed-search-form">
+        <div
+          class="collapsed-search-form"
+        >
           <search-tab></search-tab>
         </div>
       </div>
     </div>
 
-    <ticket-card></ticket-card>
+    <div class="mainLayout flex">
+      <div class="choosePane">
+        <!-- choose-pane -->
+      </div>
+      <div class="flex flex-column" style="flex-direction: column; flex: 1;">
+        <div
+          v-for="(item, index) in detailList"
+          :key="index"
+          class="cardList"
+        >
+          <ticket-card></ticket-card>
+        </div>
+      </div>
+
+    </div>
+
+
+
   </div>
 </template>
 
@@ -28,7 +47,7 @@ export default {
   },
   data() {
     return {
-
+      detailList: new Array(10)
     }
   },
   methods: {
