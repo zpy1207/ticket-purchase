@@ -17,18 +17,67 @@
           </div>
         </div>
         <div class="itrTxtPair">
-          <button class="btn is-solid-secondary btn-choose">
+          <button class="btn is-solid-secondary btn-choose" >
             <font style="vertical-align: inherit;">choose</font>
           </button>
-          <div class="btn icon">
-            <i class="el-icon-arrow-down"></i>
+          <div class="btn icon" @click="onCollapse">
+            <i :class="classIcon"></i>
           </div>
         </div>
 
       </div>
 
-      <div class="detailCard">
-        
+      <div
+        v-if="showDetail"
+        class="detailCard"
+      >
+        <div class="flex flex-column">
+          <div class="ticketCard">
+            <div class="detail-company-num itrTxtPair">
+              <div class="bt_focusText pd-5">
+                航空公司
+              </div>
+              <div class="bt_focusText pd-5">
+                航班编号
+              </div>
+            </div>
+          </div>
+          <div class="itrDetails clearfix">
+            <div class="deptDetails floatLeft">
+              <div class="bt_focusText airportCode">
+                start-airport-code
+              </div>
+              <div>
+                <div class="bt_focusText">
+                  start-time
+                </div>
+                <div class="itrDate">
+                  start-date
+                </div>
+              </div>
+              <div>start-airport-address</div>
+            </div>
+            <div class="fltDurationPair floatLeft">
+              <div class="fltDuration">飞行时长</div>
+            </div>
+            <div class="deptDetails floatRight">
+              <div class="bt_focusText airportCode">
+                end-airport-code
+              </div>
+              <div>
+                <div class="bt_focusText">
+                  end-time
+                </div>
+                <div class="itrDate">
+                  end-date
+                </div>
+              </div>
+              <div>end-airport-address</div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     </div>
 
@@ -37,7 +86,22 @@
 
 <script>
 export default {
-
+  name: 'TicketCard',
+  data() {
+    return {
+      showDetail: true
+    }
+  },
+  computed: {
+    classIcon() {
+      return this.showDetail ? 'el-icon-arrow-up' : 'el-icon-arrow-down'
+    }
+  },
+  methods: {
+    onCollapse() {
+      this.showDetail = !this.showDetail
+    }
+  }
 }
 </script>
 
