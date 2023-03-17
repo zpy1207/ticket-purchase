@@ -13,7 +13,8 @@
     </div>
 
     <div class="mainLayout flex">
-      <div class="choosePane">
+      <div class="choosePane" style="">
+        <div class="choose-pane-container" style=""></div>
         <!-- choose-pane -->
       </div>
       <div class="flex flex-column" style="flex-direction: column; flex: 1;">
