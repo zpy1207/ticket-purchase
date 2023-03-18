@@ -4,7 +4,7 @@
       <div class="ticketCard" @click="onCollapse">
         <div class="company itrTxtPair">
           <div class="bt_focusText">
-            航空公司
+            公司名-飞机编号
           </div>
         </div>
         <div class="time itrTxtPair">
@@ -35,17 +35,30 @@
           <div class="ticketCard">
             <div class="detail-company-num itrTxtPair">
               <div class="bt_focusText pd-5">
-                航空公司
+                公司名-飞机编号
               </div>
               <div class="bt_focusText pd-5">
                 航班编号
               </div>
             </div>
+            <div class="rest-seat ">
+              <div class="class-level bt_focusText flex flex-column floatLeft">
+                <div>first-class</div>
+                <div>second-class</div>
+                <div>economy-class</div>
+              </div>
+              <div class="rest-seats flex flex-column floatLeft">
+                <div>rest 123 seats</div>
+                <div>rest 123 seats</div>
+                <div>rest 123 seats</div>
+              </div>
+
+            </div>
           </div>
           <div class="itrDetails clearfix">
             <div class="deptDetails floatLeft">
               <div class="bt_focusText airportCode">
-                start-airport-code
+                <!-- start-airport-code -->
               </div>
               <div>
                 <div class="bt_focusText">
@@ -62,7 +75,7 @@
             </div>
             <div class="deptDetails floatRight">
               <div class="bt_focusText airportCode">
-                end-airport-code
+                <!-- end-airport-code -->
               </div>
               <div>
                 <div class="bt_focusText">
