@@ -28,13 +28,21 @@
   min-height: 300px;
   margin: 20px;
   position: sticky;
-  top: 20vh;
+  top: 10vh;
 }
 
 .choose-pane-container {
-  border: solid 1px #000;
+  // border: solid 1px #000;
+  text-align: start;
   height: 70vh;
   width: 300px;
+  padding: 20px 10px;
+
+  .choose-pane-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 4rem;
+  }
 }
 
 .collapsed-search-form {
@@ -45,6 +53,12 @@
   padding: 20px 0;
   -webkit-animation: expand .15s cubic-bezier(.65,.05,.36,1);
   animation: expand .15s cubic-bezier(.65,.05,.36,1);
+}
+
+.icon-plane {
+  font-size: 2rem;
+  text-align: start;
+  padding: 5px 10px;
 }
 
 .mainLayout {
