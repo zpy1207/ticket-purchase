@@ -16,8 +16,14 @@ export default {
     }
   },
   mounted() {
-    this.user = this.$route.query.user
-    console.log(this.user)
+    this.mountedInit()
+  },
+  methods: {
+    mountedInit() {
+      if (process.browser) {
+        this.user = JSON.parse(window.localStorage.getItem('user'))
+      }
+    }
   }
 }
 </script>

@@ -2,6 +2,8 @@
     <div class="index-page__header">
       <img class="index-page__header-logo">
 
+      <div class="title">{{ title }}</div>
+
       <!-- order -->
       <div
         v-if="hasLogin"
@@ -29,6 +31,7 @@
 <script>
 export default {
   props: {
+    title: { type: String, default: '' },
     user: { type: Object, default: null }
     // userName: { type: String, default: }
   },

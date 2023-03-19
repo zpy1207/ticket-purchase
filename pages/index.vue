@@ -1,6 +1,7 @@
 <template>
   <div class="index-page">
   <header-tab
+    title="home"
     :user="currentUser"
     @logOut="logOut"
     @showLoginPane="showLoginPane"
@@ -71,7 +72,7 @@ export default {
       // send login request
       this.userLogin(number, psd)
       if (this.currentUser) {
-        window.localStorage.setItem('userName', this.currentUser.userName)
+        window.localStorage.setItem('user', JSON.stringify(this.currentUser))
       }
       console.log(window.localStorage.getItem('userName'))
     },
