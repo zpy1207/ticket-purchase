@@ -41,6 +41,7 @@
     "prettier": "^2.7.1",
     "sass-loader": "^10.2.1",
     "vue-jest": "^3.0.4",
+    "vue-session": "^1.0.0",
     "webpack": "^4.46.0"
   }
 }

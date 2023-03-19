@@ -1,11 +1,12 @@
 @import "./../index.scss";
 
-.index-page__login {
+.index-page__cell {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0px 10px;
 }
 
-.login-or-register {
+.header__label {
   font-size: 1.25rem;
 }

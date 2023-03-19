@@ -1,7 +1,9 @@
 <template>
   <div class="index-page">
   <header-tab
-    @onLogin="onLogin"
+    :user="currentUser"
+    @logOut="logOut"
+    @showLoginPane="showLoginPane"
   ></header-tab>
   <main>
     <div class="index-page__bg">
@@ -16,8 +18,12 @@
       </div>
     </div>
   </main>
+
+  <!-- login-modal -->
   <div v-if="showLogin">
     <SelfModal
+      @onLogin="onLogin"
+      @onRegister="onRegister"
       @closeModal="closeModal"
     ></SelfModal>
   </div>
@@ -39,19 +45,53 @@ export default {
   },
   data() {
     return {
+      currentUser: null,
       showLogin: false
     }
+  },
+  computed: {
+  },
+  created() {
+    this.init()
   },
   methods: {
     closeModal() {
       this.showLogin = false
     },
+    logOut() {
+      this.currentUser = null
+      window.localStorage.clear()
+    },
+    init() {
+      // get user
+
+    },
+    onLogin(number, psd) {
+      console.log('onLogin')
+      // send login request
+      this.userLogin(number, psd)
+      if (this.currentUser) {
+        window.localStorage.setItem('userName', this.currentUser.userName)
+      }
+      console.log(window.localStorage.getItem('userName'))
+    },
+    onRegister() {
+      // send register request
+      console.log('onRegister')
+    },
     onSearch() {
       // console.log('onSearch')
     },
-    onLogin () {
+    showLoginPane () {
       this.showLogin = true
       // console.log('login')
+    },
+    userLogin(number, psd) {
+      this.currentUser = {
+        userName: 'cxn',
+        phone: '110'
+      }
+      this.showLogin = false
     }
   }
 }

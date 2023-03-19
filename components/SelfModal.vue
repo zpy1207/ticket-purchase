@@ -132,7 +132,11 @@ export default {
       this.labelPsd = ''
     },
     onSubmit() {
-      // console.log('submit mobile number', this.mobileNumber)
+      if (this.isLogin) {
+        this.$emit('onLogin', this.mobileNumber, this.psd)
+      } else {
+        this.$emit('onRegister')
+      }
     },
     onBlurConfirmPsd() {
       if (!this.confirmPsd) {
