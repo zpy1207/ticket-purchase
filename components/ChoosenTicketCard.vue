@@ -6,18 +6,28 @@
     <div class="content">
       <div class="company itrTxtPair">
         <span class="bt_focusText">
-          公司名-飞机编号
+          {{ companyAndNumber }}
         </span>
-        <span class="bt_focusText"> 航班编号 </span>
+        <span class="bt_focusText"> {{ airlineNum }} </span>
       </div>
       <div class="time itrTxtPair">
-        <div class="bt_focusText">startTime - endTime</div>
-        <div class="duration">duration</div>
+        <div class="bt_focusText">{{ startTime }} - {{ endTime }}</div>
+        <div class="duration">{{ duration }}</div>
       </div>
-      <div class="ticket-detail">
-        <span class="bt_focusText">first-class</span>
+      <div v-if="firstClassNum" class="ticket-detail">
+        <span class="bt_focusText">头等舱</span>
         <span> × </span>
-        <span class=""> 1 </span>
+        <span class=""> {{ firstClassNum }} </span>
+      </div>
+      <div v-if="secondClassNum" class="ticket-detail">
+        <span class="bt_focusText">商务舱</span>
+        <span> × </span>
+        <span class=""> {{ secondClassNum }} </span>
+      </div>
+      <div v-if="economyClassNum" class="ticket-detail">
+        <span class="bt_focusText">经济舱</span>
+        <span> × </span>
+        <span class=""> {{ economyClassNum }} </span>
       </div>
 
 
@@ -29,10 +39,54 @@
 <script>
 export default {
   name: 'ChoosenTicketCard',
+  props: {
+    ticketInfo: { type: Object, default: null }
+  },
   data() {
     return {
 
     }
+  },
+  computed: {
+    airlineNum() {
+      return this.ticketInfo && this.ticketInfo.airlineNum ? this.ticketInfo.airlineNum : 'airlineNum'
+    },
+    companyAndNumber() {
+      return this.ticketInfo && this.ticketInfo.companyAndNumber ? this.ticketInfo.companyAndNumber : '公司名-飞机编号'
+    },
+    duration() {
+      return this.ticketInfo && this.ticketInfo.duration ? this.ticketInfo.duration : 'duration'
+    },
+    economyClassNum() {
+      return this.ticketInfo && this.ticketInfo.economyClassNum ? this.ticketInfo.economyClassNum : 0
+    },
+    endAddress() {
+      return this.ticketInfo && this.ticketInfo.endAddress ? this.ticketInfo.endAddress : 'endAddress'
+    },
+    endDate() {
+      return this.ticketInfo && this.ticketInfo.endDate ? this.ticketInfo.endDate : 'endDate'
+    },
+    endTime() {
+      return this.ticketInfo && this.ticketInfo.endTime ? this.ticketInfo.endTime : 'endTime'
+    },
+    price() {
+      return this.ticketInfo && this.ticketInfo.price ? this.ticketInfo.price : 'price'
+    },
+    firstClassNum() {
+      return this.ticketInfo && this.ticketInfo.firstClassNum ? this.ticketInfo.firstClassNum : 0
+    },
+    secondClassNum() {
+      return this.ticketInfo && this.ticketInfo.secondClassNum ? this.ticketInfo.secondClassNum : 0
+    },
+    startAddress() {
+      return this.ticketInfo && this.ticketInfo.startAddress ? this.ticketInfo.startAddress : 'startAddress'
+    },
+    startDate() {
+      return this.ticketInfo && this.ticketInfo.startDate ? this.ticketInfo.startDate : 'startDate'
+    },
+    startTime() {
+      return this.ticketInfo && this.ticketInfo.startTime ? this.ticketInfo.startTime : 'startTime'
+    },
   },
   methods: {
     deleteOption() {

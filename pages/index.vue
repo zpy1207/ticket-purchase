@@ -11,13 +11,17 @@
       <!-- <img class="index-page__bg-pic" src="https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp" alt="airplane"> -->
       <img class="index-page__bg-pic" src="../static/picheader.webp" alt="airplane">
     </div>
-    <div class="index-page__search-container a-container">
-      <div class="search-bar a-card products-box">
-        <SearchTab
-          @onSearch = "onSearch"
-        ></SearchTab>
+
+    <div>
+      <div class="index-page__search-container a-container">
+        <div class="search-bar a-card products-box">
+          <SearchTab
+            @onSearch = "onSearch"
+          ></SearchTab>
+        </div>
       </div>
     </div>
+
   </main>
 
   <!-- login-modal -->
@@ -80,7 +84,14 @@ export default {
       // send register request
       console.log('onRegister')
     },
-    onSearch() {
+    onSearch(searchInfo) {
+      // const tmp = 1
+      this.$router.push({
+        path: '/searchDetail',
+        query: {
+          ...searchInfo
+        }
+      })
       // console.log('onSearch')
     },
     showLoginPane () {

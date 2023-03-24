@@ -22,9 +22,22 @@
             </span>
             <span>已选择航班：</span>
           </div>
+          <!-- 选择的list -->
+          <div style="overflow: scroll; overflow-x: hidden; height: 80%;">
+            <choosen-ticket-card
+              v-for="(item, idx) in chooseTicketList"
+              :key="idx"
+              :ticketInfo="item"
+            ></choosen-ticket-card>
+          </div>
 
 
-          <choosen-ticket-card></choosen-ticket-card>
+          <div class="btn__pay">
+            <button class="btn is-solid-secondary btn-choose" style="padding: 5px 50px;" @click="onPay">
+              <font style="vertical-align: inherit;">结算</font>
+            </button>
+          </div>
+
         </div>
       </div>
 
@@ -35,7 +48,9 @@
           :key="index"
           class="cardList"
         >
-          <ticket-card></ticket-card>
+          <ticket-card
+            @chooseTicket="chooseTicket"
+          ></ticket-card>
         </div>
       </div>
 
@@ -62,11 +77,24 @@ export default {
   },
   data() {
     return {
-      detailList: new Array(10)
+      chooseTicketList: [],
+      detailList: new Array(10),
     }
   },
+  created() {
+    this.init()
+  },
   methods: {
-
+    chooseTicket(obj) {
+      console.log('chooseTicket', obj)
+      this.chooseTicketList.push(obj)
+    },
+    init() {
+      console.log(this.$route)
+    },
+    onPay() {
+      console.log('pay')
+    }
   }
 }
 </script>
