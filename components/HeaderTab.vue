@@ -24,12 +24,24 @@
         <span class="login-or-register header__label">{{ labelUser }}</span>
       </div>
 
+      <!-- login-register pane -->
+      <div v-if="showModal">
+        <self-modal
+          @onLogin="onLogin"
+          @onRegister="onRegister"
+          @closeModal="closeModal"
+        ></self-modal>
+      </div>
 
     </div>
 </template>
 
 <script>
+import SelfModal from './SelfModal.vue'
 export default {
+  components: {
+    SelfModal
+  },
   props: {
     title: { type: String, default: '' },
     user: { type: Object, default: null }
@@ -38,6 +50,7 @@ export default {
   data() {
     return {
       // currentUser: null
+      showModal: false
     }
   },
   computed: {
@@ -68,6 +81,9 @@ export default {
     this.init()
   },
   methods: {
+    closeModal() {
+      this.showModal = false
+    },
     goToOrder() {
       this.$router.push({
         path: '/myOrder',
@@ -84,8 +100,17 @@ export default {
       // }
       // console.log('currentUser', this.currentUser)
     },
+    onLogin(number, psd) {
+      this.$emit('onLogin', number, psd)
+      this.showModal = false
+    },
+    onRegister() {
+      console.log('headerTab onRegister')
+      this.$emit('onRegister')
+    },
     onUser() {
       if (!this.hasLogin) {
+        this.showModal = true
         this.$emit('showLoginPane')
       } else {
         this.$emit('logOut')

@@ -28,6 +28,7 @@
               v-for="(item, idx) in chooseTicketList"
               :key="idx"
               :ticketInfo="item"
+              @deleteOption="deleteOption"
             ></choosen-ticket-card>
           </div>
 
@@ -88,6 +89,9 @@ export default {
     chooseTicket(obj) {
       console.log('chooseTicket', obj)
       this.chooseTicketList.push(obj)
+    },
+    deleteOption(obj) {
+      console.log('delete', obj)
     },
     init() {
       console.log(this.$route)

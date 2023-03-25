@@ -30,7 +30,6 @@
         <span class=""> {{ economyClassNum }} </span>
       </div>
 
-
     </div>
 
   </div>
@@ -90,7 +89,7 @@ export default {
   },
   methods: {
     deleteOption() {
-      console.log('delete')
+      this.$emit('deleteQption', this.ticketInfo)
     }
   }
 }

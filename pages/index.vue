@@ -1,51 +1,43 @@
 <template>
   <div class="index-page">
-  <header-tab
-    title="home"
-    :user="currentUser"
-    @logOut="logOut"
-    @showLoginPane="showLoginPane"
-  ></header-tab>
-  <main>
-    <div class="index-page__bg">
-      <!-- <img class="index-page__bg-pic" src="https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp" alt="airplane"> -->
-      <img class="index-page__bg-pic" src="../static/picheader.webp" alt="airplane">
-    </div>
-
-    <div>
-      <div class="index-page__search-container a-container">
-        <div class="search-bar a-card products-box">
-          <SearchTab
-            @onSearch = "onSearch"
-          ></SearchTab>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- login-modal -->
-  <div v-if="showLogin">
-    <SelfModal
+    <header-tab
+      title="home"
+      :user="currentUser"
+      @logOut="logOut"
       @onLogin="onLogin"
       @onRegister="onRegister"
-      @closeModal="closeModal"
-    ></SelfModal>
-  </div>
+    ></header-tab>
+    <main>
+      <div class="index-page__bg">
+        <!-- <img class="index-page__bg-pic" src="https://cdn.alibaba.ir/h2/desktop/assets/images/hero/hero-e1fa22fb.webp" alt="airplane"> -->
+        <img class="index-page__bg-pic" src="../static/picheader.webp" alt="airplane">
+      </div>
+
+      <div>
+        <div class="index-page__search-container a-container">
+          <div class="search-bar a-card products-box">
+            <searchTab
+              @onSearch = "onSearch"
+            ></searchTab>
+          </div>
+        </div>
+      </div>
+
+    </main>
 
   </div>
 </template>
 
 <script>
 import SearchTab from '../components/SearchTab.vue'
-import SelfModal from '../components/SelfModal.vue'
+// import SelfModal from '../components/SelfModal.vue'
 import HeaderTab from '~/components/HeaderTab.vue'
 
 export default {
   name: 'HomePage',
   components: {
     SearchTab,
-    SelfModal,
+    // SelfModal,
     HeaderTab
   },
   data() {
@@ -60,9 +52,6 @@ export default {
     this.init()
   },
   methods: {
-    closeModal() {
-      this.showLogin = false
-    },
     logOut() {
       this.currentUser = null
       window.localStorage.clear()
@@ -94,16 +83,15 @@ export default {
       })
       // console.log('onSearch')
     },
-    showLoginPane () {
-      this.showLogin = true
-      // console.log('login')
-    },
+    // showLoginPane () {
+    //   this.showLogin = true
+    //   // console.log('login')
+    // },
     userLogin(number, psd) {
       this.currentUser = {
         userName: 'cxn',
         phone: '110'
       }
-      this.showLogin = false
     }
   }
 }
