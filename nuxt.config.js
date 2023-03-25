@@ -36,12 +36,29 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    // baseURL: '/',
+    proxy: true,
+    // timeout: 1000000,
+    // retry: { retries: 3 }
+    // prefix: '/api/'
+  },
+
+  proxy: {
+    '/api/': {
+      // target: 'http://10.173.242.252:8765/',
+      target: 'http://testapi.xuexiluxian.cn/',
+      // pathRewrite: {
+      //   '^/api/': '',
+      //   changeOrigin: true,
+      //   timeout: 100000000,
+      // }
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

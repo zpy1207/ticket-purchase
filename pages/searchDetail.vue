@@ -23,7 +23,7 @@
             <span>已选择航班：</span>
           </div>
           <!-- 选择的list -->
-          <div style="overflow: scroll; overflow-x: hidden; height: 80%;">
+          <div style="overflow-x: hidden; height: 80%; overflow: -moz-scrollbars-none;">
             <choosen-ticket-card
               v-for="(item, idx) in chooseTicketList"
               :key="idx"

@@ -29,9 +29,13 @@
 </template>
 
 <script>
+// import qs from 'qs'
+
 import SearchTab from '../components/SearchTab.vue'
 // import SelfModal from '../components/SelfModal.vue'
 import HeaderTab from '~/components/HeaderTab.vue'
+
+
 
 export default {
   name: 'HomePage',
@@ -52,13 +56,28 @@ export default {
     this.init()
   },
   methods: {
+    async getUser(phone, psd) {
+      try {
+        debugger
+        const user = await this.$axios({
+          type: 'post',
+          url: 'http://10.173.242.252:8765//user/auth/login',
+          params: {
+            phone,
+            password: psd
+          }
+        })
+        return user
+      } catch(err) {
+
+      }
+    },
     logOut() {
       this.currentUser = null
       window.localStorage.clear()
     },
     init() {
       // get user
-
     },
     onLogin(number, psd) {
       console.log('onLogin')
@@ -69,8 +88,27 @@ export default {
       }
       console.log(window.localStorage.getItem('userName'))
     },
-    onRegister() {
+    onRegister(obj) {
       // send register request
+      // try {
+      //   console.log(this.$axios)
+      //   debugger
+      //   const data = qs.stringify({
+      //     phone: obj.phone,
+      //     password: obj.psd,
+      //     userName: obj.userName
+      //   })
+      //   // const user = await this.$axios.$post('/api/user/auth/register',data)
+      //   const user = await this.$axios({
+      //     method: 'post',
+      //     // url: '/api/user/auth/register',
+      //     url: '/api/u/loginByJson',
+      //     data
+      //   })
+      //   return user
+      // } catch(err) {
+
+      // }
       console.log('onRegister')
     },
     onSearch(searchInfo) {
@@ -81,17 +119,18 @@ export default {
           ...searchInfo
         }
       })
-      // console.log('onSearch')
     },
-    // showLoginPane () {
-    //   this.showLogin = true
-    //   // console.log('login')
-    // },
     userLogin(number, psd) {
-      this.currentUser = {
-        userName: 'cxn',
-        phone: '110'
+      try {
+        // this.currentUser = await this.getUser(number, psd)
+        this.currentUser = {
+          userName: 'cxn',
+          phone: '110'
+        }
+      } catch(err) {
+
       }
+
     }
   }
 }

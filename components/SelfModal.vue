@@ -13,6 +13,25 @@
           <h4>
             <font style="vertical-align: inherit;">{{ inputHint }}</font>
           </h4>
+          <div
+            v-if="!isLogin"
+            class="a-input mb-5 text-right has-append is-lg"
+          >
+            <span class="a-input__input">
+              <input
+                v-model="userName"
+                type="text"
+                @focus="onFocusUsername"
+                @blur="onBlurUsername"
+              >
+            </span>
+            <label class="a-input__label">
+              <font style="vertical-align: inherit;">{{ labelUsername }}</font>
+            </label>
+            <span class="help-text is-invalid">
+              <font style="vertical-align: inherit;">{{ errMessageUsername }}</font>
+            </span>
+          </div>
           <div class="a-input mb-5 text-right has-append is-lg">
             <span class="a-input__input">
               <input
@@ -93,12 +112,15 @@ export default {
       confirmPsd: '',
       errMessageMobile: '',
       errMessagePsd: '',
+      errMessageUsername: '',
       isLogin: true,
       mobileNumber: "",
       labelConfirmPsd: '请再次输入密码',
       labelMobile: '电话号码',
       labelPsd: '密码',
-      psd: ''
+      labelUsername: '用户名',
+      psd: '',
+      userName: ''
     }
   },
   computed: {
@@ -131,11 +153,18 @@ export default {
     onFocusPsd() {
       this.labelPsd = ''
     },
+    onFocusUsername() {
+      this.labelUsername = ''
+    },
     onSubmit() {
       if (this.isLogin) {
         this.$emit('onLogin', this.mobileNumber, this.psd)
       } else {
-        this.$emit('onRegister')
+        this.$emit('onRegister', {
+          phone: this.mobileNumber,
+          psd: this.psd,
+          userName: this.userName
+        })
       }
     },
     onBlurConfirmPsd() {
@@ -144,6 +173,8 @@ export default {
       }
       if (this.confirmPsd !== this.psd) {
         this.errMessagePsd = "两次输入的密码不一致"
+      } else {
+        this.errMessagePsd = ""
       }
     },
     onBlurMobile() {
@@ -159,6 +190,11 @@ export default {
     onBlurPsd() {
       if (!this.psd) {
         this.labelPsd = "密码"
+      }
+    },
+    onBlurUsername() {
+      if (!this.userName) {
+        this.labelUsername = "用户名"
       }
     }
   }

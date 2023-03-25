@@ -104,9 +104,13 @@ export default {
       this.$emit('onLogin', number, psd)
       this.showModal = false
     },
-    onRegister() {
-      console.log('headerTab onRegister')
-      this.$emit('onRegister')
+    onRegister(obj) {
+      console.log('headerTab onRegister', obj)
+      this.$emit('onRegister', {
+        phone: obj.phone,
+        psd: obj.psd,
+        userName: obj.userName
+      })
     },
     onUser() {
       if (!this.hasLogin) {
