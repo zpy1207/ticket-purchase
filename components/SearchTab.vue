@@ -53,7 +53,9 @@
                   class="input-date"
                   type="date"
                   size="large"
-                  placeholder="出发日期">
+                  align="center"
+                  placeholder="出发日期"
+                >
                 </el-date-picker>
               </span>
             </div>
@@ -78,7 +80,7 @@ export default {
     return {
       startCity: '',
       endCity: '',
-      startDate: '',
+      startDate: new Date(),
       date: '',
       labelStartCity: '起始地',
       labelEndCity: '目的地',
@@ -91,7 +93,11 @@ export default {
       this.endCity = tmp
     },
     onSearch() {
-      this.$emit('onSearch')
+      this.$emit('onSearch', {
+        startCity: this.startCity,
+        endCity: this.endCity,
+        startDate: this.startDate.getTime()
+      })
     },
     onFocusStartCity() {
       this.labelStartCity = ''

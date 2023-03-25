@@ -97,6 +97,12 @@ export default {
       console.log(this.$route)
     },
     onPay() {
+      this.$router.push({
+        path: '/payment',
+        query: {
+          ...this.chooseTicketList
+        }
+      })
       console.log('pay')
     }
   }
