@@ -34,7 +34,7 @@
 
 
           <div class="btn__pay">
-            <button class="btn is-solid-secondary btn-choose" style="padding: 5px 50px;" @click="onPay">
+            <button class="btn is-solid-secondary btn-choose pointer" style="padding: 5px 50px;" @click="onPay">
               <font style="vertical-align: inherit;">结算</font>
             </button>
           </div>

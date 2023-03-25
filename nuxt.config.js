@@ -51,13 +51,19 @@ export default {
 
   proxy: {
     '/api/': {
-      // target: 'http://10.173.242.252:8765/',
-      target: 'http://testapi.xuexiluxian.cn/',
-      // pathRewrite: {
-      //   '^/api/': '',
-      //   changeOrigin: true,
-      //   timeout: 100000000,
-      // }
+      // target: 'http://localhost:8000/',
+      target: 'http://10.173.80.213:8765/',
+      // target: 'http://testapi.xuexiluxian.cn/',
+      pathRewrite: {
+        '^/api/': '/',
+        // changeOrigin: true,
+        // timeout: 100000000,
+      },
+      onProxyReq(proxyReq) {
+        if (proxyReq.getHeader("origin")) {
+          proxyReq.setHeader("origin", 'http://10.173.80.213:8765/')
+        }
+      }
     }
   },
 

@@ -58,16 +58,20 @@ export default {
   methods: {
     async getUser(phone, psd) {
       try {
-        debugger
-        const user = await this.$axios({
-          type: 'post',
-          url: 'http://10.173.242.252:8765//user/auth/login',
-          params: {
-            phone,
-            password: psd
-          }
+        // debugger
+        const user = JSON.stringify({
+          phone,
+          password: psd
         })
-        return user
+        const { data: { data } } = await this.$axios({
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          method: 'post',
+          url: '/api/user/auth/login',
+          data: user
+        })
+        return data
       } catch(err) {
 
       }
@@ -80,7 +84,6 @@ export default {
       // get user
     },
     onLogin(number, psd) {
-      console.log('onLogin')
       // send login request
       this.userLogin(number, psd)
       if (this.currentUser) {
@@ -88,28 +91,29 @@ export default {
       }
       console.log(window.localStorage.getItem('userName'))
     },
-    onRegister(obj) {
+    async onRegister(obj) {
       // send register request
-      // try {
-      //   console.log(this.$axios)
-      //   debugger
-      //   const data = qs.stringify({
-      //     phone: obj.phone,
-      //     password: obj.psd,
-      //     userName: obj.userName
-      //   })
-      //   // const user = await this.$axios.$post('/api/user/auth/register',data)
-      //   const user = await this.$axios({
-      //     method: 'post',
-      //     // url: '/api/user/auth/register',
-      //     url: '/api/u/loginByJson',
-      //     data
-      //   })
-      //   return user
-      // } catch(err) {
+      try {
+        const data = JSON.stringify({
+          phone: obj.phone,
+          password: obj.psd,
+          userName: obj.userName
+        })
+        // const user = await this.$axios.$post('/api/user/auth/register',data)
+        const user = await this.$axios({
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          method: 'post',
+          // url: '/api/user/auth/register',
+          url: '/api/user/auth/register',
+          data
+        })
+        return user
+      } catch(err) {
 
-      // }
-      console.log('onRegister')
+      }
+      // console.log('onRegister')
     },
     onSearch(searchInfo) {
       // const tmp = 1
@@ -120,13 +124,14 @@ export default {
         }
       })
     },
-    userLogin(number, psd) {
+    async userLogin(number, psd) {
       try {
-        // this.currentUser = await this.getUser(number, psd)
-        this.currentUser = {
-          userName: 'cxn',
-          phone: '110'
-        }
+        this.currentUser = await this.getUser(number, psd)
+        console.log(this.currentUser)
+        // this.currentUser = {
+        //   userName: 'cxn',
+        //   phone: '110'
+        // }
       } catch(err) {
 
       }
