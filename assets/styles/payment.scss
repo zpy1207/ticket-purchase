@@ -9,4 +9,10 @@
 .passenger-card-list-container {
   display: flex;
   justify-content: stretch;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.card-title {
+  justify-content: space-between;
 }

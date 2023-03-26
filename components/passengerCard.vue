@@ -1,11 +1,11 @@
 <template>
   <div class="card-container">
-    <div class="flex">
-      <div>{{ firstName }}</div>
+    <div class="flex text__name">
+      <div style="padding-right: 10px;">{{ firstName }}</div>
       <div>{{ lastName }}</div>
     </div>
     <div class="flex">
-      <div class="label">身份证：</div>
+      <div class="label idCard__label">身份证：</div>
       <div>{{ idCard }}</div>
     </div>
 
@@ -17,17 +17,17 @@
 export default {
   name: 'PassengerCard',
   props: {
-    passengrtInfo: { type: Object, default: null }
+    passengerInfo: { type: Object, default: null }
   },
   computed: {
     firstName() {
-      return this.passengrtInfo && this.passengrtInfo.firstName ? this.passengrtInfo.firstName : 'firstName'
+      return this.passengerInfo && this.passengerInfo.firstName ? this.passengerInfo.firstName.toUpperCase() : 'firstName'
     },
     lastName() {
-      return this.passengrtInfo && this.passengrtInfo.lastName ? this.passengrtInfo.lastName : 'lastName'
+      return this.passengerInfo && this.passengerInfo.lastName ? this.passengerInfo.lastName.toUpperCase() : 'lastName'
     },
     idCard() {
-      return this.passengrtInfo && this.passengrtInfo.idCard ? this.passengrtInfo.idCard : 'idCard'
+      return this.passengerInfo && this.passengerInfo.identifyCard ? this.passengerInfo.identifyCard : 'idCard'
     }
   }
 }

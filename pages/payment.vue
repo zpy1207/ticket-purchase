@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="header">
+      <header-tab></header-tab>
+    </div>
+
     <div class="ticketCardContainer">
       <div class="ticketCardLayout">
         <div class="ticketCard">
@@ -24,18 +28,41 @@
           class="detailCard"
         >
           <div class="flex flex-column">
-            <div class="bt_focusText title-choose-passenger">请选择乘机人：</div>
+            <div class="flex card-title">
+              <div class="bt_focusText title-choose-passenger">请选择乘机人：</div>
+              <div class="btn__pay">
+                <button class="btn is-solid-secondary btn-choose pointer" style="padding: 5px 50px;" @click="onClickAddPassenger">
+                  <font style="vertical-align: inherit;">+ 新增乘机人</font>
+                </button>
+              </div>
+            </div>
+
               <div class="passenger-card-list-container">
-                <passenger-card></passenger-card>
-                <passenger-card></passenger-card>
-                <passenger-card></passenger-card>
+                <div
+                  v-for="(item, idx) in passengerList"
+                  :key="idx"
+                >
+                  <passenger-card
+                    :passengerInfo="item"
+                  ></passenger-card>
+                </div>
               </div>
             <div class="itrDetails clearfix">
             </div>
           </div>
-
-
         </div>
+
+
+        <!-- modal -->
+        <div
+          v-if="showModal"
+        >
+          <modal-add-passenger
+            @updatePanegerList="getPassengerList"
+            @closeModal="closeModal"
+          ></modal-add-passenger>
+        </div>
+
       </div>
     </div>
   </div>
@@ -43,12 +70,23 @@
 
 <script>
 import passengerCard from '~/components/passengerCard.vue'
+import HeaderTab from '~/components/HeaderTab.vue'
+import modalAddPassenger from '~/components/modalAddPassenger.vue'
 // import TicketCard from "~/components/TicketCard.vue"
 
 export default {
-  components: { passengerCard },
-  // components: { TicketCard }
-    computed: {
+  components: {
+    modalAddPassenger,
+    HeaderTab,
+    passengerCard,
+  },
+  data() {
+    return {
+      passengerList: [],
+      showModal: false
+    }
+  },
+  computed: {
     airlineNum() {
       return this.ticketInfo && this.ticketInfo.airlineNum ? this.ticketInfo.airlineNum : 'airlineNum'
     },
@@ -80,6 +118,36 @@ export default {
       return this.ticketInfo && this.ticketInfo.startTime ? this.ticketInfo.startTime : 'startTime'
     },
   },
+  async created() {
+    await this.getPassengerList()
+  },
+  methods: {
+    closeModal() {
+      this.showModal = false
+    },
+    async getPassengerList() {
+      try {
+        // debugger
+        const token = JSON.parse(window.localStorage.getItem('user')).token || 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwidXNlcklkIjoiMiIsIm5hbWUiOiIxNjc5NzI2MDkyNTU5MTM3Mjk1MTAwODMiLCJyb2xlIjowLCJleHAiOjE3NjYyMTYwNjV9.O9sbmALG5SuiiLuzhhv8Dq67p_3CKZF_FFVGod4-MQX3pk0f1L5y_8Nv154DvwH2DSdFLCA-wfUl4I2rUsbM_Q'
+        const { data: { data } } = await this.$axios({
+          headers: {
+              'Authorization': token
+          },
+          method: 'get',
+          url: '/api/user/api/passenger/list',
+        })
+        console.log(data)
+        this.passengerList = data
+      } catch(err) {
+
+      }
+    },
+    onClickAddPassenger() {
+      this.showModal = true
+      console.log('onClickAddPassenger')
+    },
+
+  }
 }
 </script>
 

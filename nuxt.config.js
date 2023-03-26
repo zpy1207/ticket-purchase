@@ -61,7 +61,7 @@ export default {
       },
       onProxyReq(proxyReq) {
         if (proxyReq.getHeader("origin")) {
-          proxyReq.setHeader("origin", 'http://10.173.80.213:8765/')
+          proxyReq.setHeader("origin", 'http://10.173.80.4:8765/')
         }
       }
     }
