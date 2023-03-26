@@ -1,5 +1,9 @@
 <template>
-  <div class="card-container">
+  <div
+    class="card-container pointer"
+    :class="klassSelected"
+    @click="onSelect"
+  >
     <div class="flex text__name">
       <div style="padding-right: 10px;">{{ firstName }}</div>
       <div>{{ lastName }}</div>
@@ -19,15 +23,29 @@ export default {
   props: {
     passengerInfo: { type: Object, default: null }
   },
+  data() {
+    return {
+      selected: false
+    }
+  },
   computed: {
     firstName() {
       return this.passengerInfo && this.passengerInfo.firstName ? this.passengerInfo.firstName.toUpperCase() : 'firstName'
+    },
+    klassSelected() {
+      return this.selected ? 'selected' :''
     },
     lastName() {
       return this.passengerInfo && this.passengerInfo.lastName ? this.passengerInfo.lastName.toUpperCase() : 'lastName'
     },
     idCard() {
       return this.passengerInfo && this.passengerInfo.identifyCard ? this.passengerInfo.identifyCard : 'idCard'
+    }
+  },
+  methods: {
+    onSelect() {
+      this.selected = !this.selected
+      this.$emit('selectPassenger', this.passengerInfo, this.selected)
     }
   }
 }

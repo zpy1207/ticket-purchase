@@ -16,3 +16,26 @@
 .card-title {
   justify-content: space-between;
 }
+
+.payment-container {
+  width: 90%;
+}
+
+.flex-center {
+  justify-content: center;
+
+}
+
+.payment-container-container {
+  flex: 1;
+  margin-top: 30px;
+}
+
+.btn__pay {
+  padding-right: 50px;
+  padding-bottom: 50px;
+}
+
+.selected {
+  background-color: aquamarine;
+}

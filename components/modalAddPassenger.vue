@@ -121,7 +121,6 @@ export default {
         this.closeModal()
         this.updatePanegerList()
       }
-      console.log(state)
     },
     updatePanegerList() {
       this.$emit('updatePanegerList')

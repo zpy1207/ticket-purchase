@@ -4,56 +4,71 @@
       <header-tab></header-tab>
     </div>
 
-    <div class="ticketCardContainer">
-      <div class="ticketCardLayout">
-        <div class="ticketCard">
-          <div class="company itrTxtPair">
-            <div class="bt_focusText">
-              {{ companyAndNumber }}
-            </div>
-          </div>
-          <div class="time itrTxtPair">
-            <div class="bt_focusText">{{ startTime }} - {{ endTime }}</div>
-            <div class="duration">{{ duration }}</div>
-          </div>
-          <div class="price itrTxtPair">
-            <div class="bt_focusText">
-              {{ price }}
-            </div>
-          </div>
-
-        </div>
-
-        <div
-          class="detailCard"
-        >
-          <div class="flex flex-column">
-            <div class="flex card-title">
-              <div class="bt_focusText title-choose-passenger">请选择乘机人：</div>
-              <div class="btn__pay">
-                <button class="btn is-solid-secondary btn-choose pointer" style="padding: 5px 50px;" @click="onClickAddPassenger">
-                  <font style="vertical-align: inherit;">+ 新增乘机人</font>
-                </button>
-              </div>
-            </div>
-
-              <div class="passenger-card-list-container">
-                <div
-                  v-for="(item, idx) in passengerList"
-                  :key="idx"
-                >
-                  <passenger-card
-                    :passengerInfo="item"
-                  ></passenger-card>
+    <div class="flex flex-center payment-container-container">
+      <div class="payment-container">
+        <div class="ticketCardContainer">
+          <div class="ticketCardLayout">
+            <div class="ticketCard">
+              <div class="company itrTxtPair">
+                <div class="bt_focusText">
+                  {{ companyAndNumber }}
                 </div>
               </div>
-            <div class="itrDetails clearfix">
+              <div class="time itrTxtPair">
+                <div class="bt_focusText">{{ startTime }} - {{ endTime }}</div>
+                <div class="duration">{{ duration }}</div>
+              </div>
+              <div class="price itrTxtPair">
+                <div class="bt_focusText">
+                  {{ price }}
+                </div>
+              </div>
+
             </div>
+
+            <div
+              class="detailCard"
+            >
+              <div class="flex flex-column">
+                <div class="flex card-title">
+                  <div class="bt_focusText title-choose-passenger">请选择乘机人：</div>
+                  <div class="btn__pay">
+                    <button class="btn is-solid-secondary btn-choose pointer" style="padding: 5px 50px;" @click="onClickAddPassenger">
+                      <font style="vertical-align: inherit;">+ 新增乘机人</font>
+                    </button>
+                  </div>
+                </div>
+
+                  <div class="passenger-card-list-container">
+                    <div
+                      v-for="(item, idx) in passengerList"
+                      :key="idx"
+                    >
+                      <passenger-card
+                        :passengerInfo="item"
+                        @selectPassenger="selectPassenger"
+                      ></passenger-card>
+                    </div>
+                  </div>
+                <div class="itrDetails clearfix">
+                </div>
+              </div>
+            </div>
+
+
+            <div class="btn__pay">
+              <button class="btn is-solid-secondary btn-choose pointer" style="padding: 5px 50px;" @click="onPay">
+                <font style="vertical-align: inherit;">结算</font>
+              </button>
+            </div>
+
           </div>
+
+
         </div>
 
 
-        <!-- modal -->
+<!-- modal -->
         <div
           v-if="showModal"
         >
@@ -65,6 +80,8 @@
 
       </div>
     </div>
+
+
   </div>
 </template>
 
@@ -83,7 +100,8 @@ export default {
   data() {
     return {
       passengerList: [],
-      showModal: false
+      selectedPassengers: [],
+      showModal: false,
     }
   },
   computed: {
@@ -146,6 +164,18 @@ export default {
       this.showModal = true
       console.log('onClickAddPassenger')
     },
+    onPay() {
+      console.log('onPay')
+      console.log(this.selectedPassengers)
+    },
+    selectPassenger(obj, selected) {
+      if (selected) {
+        this.selectedPassengers.push(obj)
+      } else {
+        this.selectedPassengers = this.selectedPassengers.filter((p) => p.id !== obj.id)
+      }
+
+    }
 
   }
 }
