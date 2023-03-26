@@ -3,7 +3,6 @@
     <header-tab
       title="home"
       :user="currentUser"
-      @logOut="logOut"
       @onLogin="onLogin"
       @onRegister="onRegister"
     ></header-tab>
@@ -56,40 +55,12 @@ export default {
     this.init()
   },
   methods: {
-    async getUser(phone, psd) {
-      try {
-        // debugger
-        const user = JSON.stringify({
-          phone,
-          password: psd
-        })
-        const { data: { data } } = await this.$axios({
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          method: 'post',
-          url: '/api/user/auth/login',
-          data: user
-        })
-        return data
-      } catch(err) {
-
-      }
-    },
     logOut() {
       this.currentUser = null
       window.localStorage.clear()
     },
     init() {
       // get user
-    },
-    async onLogin(number, psd) {
-      // send login request
-      await this.userLogin(number, psd)
-      if (this.currentUser) {
-        window.localStorage.setItem('user', JSON.stringify(this.currentUser))
-      }
-      console.log(JSON.parse(window.localStorage.getItem('user')).token)
     },
     async onRegister(obj) {
       // send register request
@@ -123,19 +94,6 @@ export default {
         }
       })
     },
-    async userLogin(number, psd) {
-      try {
-        this.currentUser = await this.getUser(number, psd)
-        // console.log(this.currentUser)
-        // this.currentUser = {
-        //   userName: 'cxn',
-        //   phone: '110'
-        // }
-      } catch(err) {
-
-      }
-
-    }
   }
 }
 </script>

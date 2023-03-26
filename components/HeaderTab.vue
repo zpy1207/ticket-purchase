@@ -14,14 +14,32 @@
         <span class="label-order header__label">我的订单</span>
       </div>
 
-      <!-- login and register -->
-      <div
-        class="index-page__login index-page__cell"
-        :class="classUser"
-        @click="onUser"
+      <el-popover
+        ref="popover"
+        v-model="showPopover"
+        placement="bottom"
+        width="260"
+        trigger="click"
+        popper-class="header-popup"
       >
-        <i class="el-icon-user index-page__header-icon" ></i>
-        <span class="login-or-register header__label">{{ labelUser }}</span>
+        <div
+          v-if="!isSelfCenter"
+          class="pointer btn-label btn-passenger"
+          @click="goToCenter"
+        >
+          编辑乘机人
+        </div>
+        <div class="pointer btn-label btn-logout" @click="logout">退出登录</div>
+      </el-popover>
+
+      <div v-popover:popover class="slot-reference">
+        <div
+          class="index-page__login index-page__cell pointer"
+          @click.stop="onUser"
+        >
+          <i class="el-icon-user index-page__header-icon" ></i>
+          <span class="login-or-register header__label">{{ labelUser }}</span>
+        </div>
       </div>
 
       <!-- login-register pane -->
@@ -38,6 +56,7 @@
 
 <script>
 import SelfModal from './SelfModal.vue'
+
 export default {
   components: {
     SelfModal
@@ -49,19 +68,12 @@ export default {
   },
   data() {
     return {
-      // currentUser: null
-      showModal: false
+      currentUser: null,
+      showModal: false,
+      showPopover: false
     }
   },
   computed: {
-    classUser() {
-      return this.hasLogin ? '' : 'pointer'
-    },
-    currentUser() {
-      // const userName = process.browser && window.localStorage.getItem('userName') ? window.localStorage.getItem('userName') : ''
-      // console.log('currentUser', userName)
-      return this.user
-    },
     hasLogin() {
       return !!this.currentUser
     },
@@ -70,6 +82,9 @@ export default {
     },
     isAdminister() {
       return this.currentUser && this.currentUser.role
+    },
+    isSelfCenter() {
+      return window.location.pathname.slice(1) === 'selfCenter'
     },
     userName() {
       return this.currentUser && this.currentUser.userName ? this.currentUser.userName : ''
@@ -84,6 +99,34 @@ export default {
     closeModal() {
       this.showModal = false
     },
+    async getUser(phone, psd) {
+      try {
+        // debugger
+        const user = JSON.stringify({
+          phone,
+          password: psd
+        })
+        const { data: { data } } = await this.$axios({
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          method: 'post',
+          url: '/api/user/auth/login',
+          data: user
+        })
+        return data
+      } catch(err) {
+
+      }
+    },
+    goToCenter() {
+      this.$router.push({
+        path: '/selfCenter',
+        query: {
+          // user: this.currentUser
+        }
+      })
+    },
     goToOrder() {
       this.$router.push({
         path: '/myOrder',
@@ -92,20 +135,29 @@ export default {
         }
       })
     },
+    logout() {
+      this.currentUser = null
+      window.localStorage.clear()
+      this.showPopover = false
+    },
     init() {
-      // if (process.browser) {
-      //   if (window.localStorage.getItem('userName')) {
-      //     this.currentUser = { ...this.user, userName: window.localStorage.getItem('user') }
-      //   }
-      // }
+      if (process.browser) {
+        if (window.localStorage.getItem('user')) {
+          this.currentUser = JSON.parse(window.localStorage.getItem('user'))
+        }
+      }
       // console.log('currentUser', this.currentUser)
     },
-    onLogin(number, psd) {
-      this.$emit('onLogin', number, psd)
-      this.showModal = false
+    async onLogin(number, psd) {
+      // send login request
+      await this.userLogin(number, psd)
+      if (this.currentUser) {
+        window.localStorage.setItem('user', JSON.stringify(this.currentUser))
+        this.showModal = false
+      }
+      console.log(JSON.parse(window.localStorage.getItem('user')).token)
     },
     onRegister(obj) {
-      console.log('headerTab onRegister', obj)
       this.$emit('onRegister', {
         phone: obj.phone,
         psd: obj.psd,
@@ -115,9 +167,21 @@ export default {
     onUser() {
       if (!this.hasLogin) {
         this.showModal = true
-        this.$emit('showLoginPane')
+        // this.$emit('showLoginPane')
       } else {
-        this.$emit('logOut')
+        this.showPopover = true
+      }
+    },
+    async userLogin(number, psd) {
+      try {
+        this.currentUser = await this.getUser(number, psd)
+        // console.log(this.currentUser)
+        // this.currentUser = {
+        //   userName: 'cxn',
+        //   phone: '110'
+        // }
+      } catch(err) {
+
       }
     }
   }
