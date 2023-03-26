@@ -14,34 +14,7 @@
     </div>
 
     <div class="mainLayout flex">
-      <div class="choosePane" style="">
-        <div class="choose-pane-container" style="">
-          <div class="choose-pane-title">
-            <span class="icon-plane">
-              <i class="el-icon-s-promotion"></i>
-            </span>
-            <span>已选择航班：</span>
-          </div>
-          <!-- 选择的list -->
-          <div style="overflow-x: hidden; height: 80%; overflow: -moz-scrollbars-none;">
-            <choosen-ticket-card
-              v-for="(item, idx) in chooseTicketList"
-              :key="idx"
-              :ticketInfo="item"
-              @deleteOption="deleteOption"
-            ></choosen-ticket-card>
-          </div>
-
-
-          <div class="btn__pay">
-            <button class="btn is-solid-secondary btn-choose pointer" style="padding: 5px 50px;" @click="onPay">
-              <font style="vertical-align: inherit;">结算</font>
-            </button>
-          </div>
-
-        </div>
-      </div>
-
+      <shopping-cart></shopping-cart>
       <!-- ticket-list -->
       <div class="flex flex-column" style="flex-direction: column; flex: 1;">
         <div
@@ -57,8 +30,6 @@
 
     </div>
 
-
-
   </div>
 </template>
 
@@ -66,12 +37,14 @@
 import SearchTab from '../components/SearchTab.vue'
 import HeaderTab from '~/components/HeaderTab.vue'
 import TicketCard from '~/components/TicketCard.vue'
-import ChoosenTicketCard from '~/components/ChoosenTicketCard.vue'
+// import ChoosenTicketCard from '~/components/ChoosenTicketCard.vue'
+import ShoppingCart from '~/components/shoppingCart.vue'
 
 export default {
   name: 'SearchDetailPage',
-  comments: {
-    ChoosenTicketCard,
+  components: {
+    // ChoosenTicketCard,
+    ShoppingCart,
     HeaderTab,
     SearchTab,
     TicketCard
@@ -93,8 +66,26 @@ export default {
     deleteOption(obj) {
       console.log('delete', obj)
     },
-    init() {
-      console.log(this.$route)
+    async getFlight(obj) {
+      try {
+        const ticketList = await this.$axios({
+          method: 'get',
+          url: '/api/ticket/enter/api/flight/flightQuery',
+          params: {
+            beginCity: obj.startCity,
+            endCity: obj.endCity,
+            flightDate: obj.startDate
+          }
+        })
+        return ticketList
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    async init() {
+      console.log(this.$route.query)
+      const ticketList = await this.getFlight(this.$route.query)
+      console.log('ticketList', ticketList)
     },
     onPay() {
       this.$router.push({

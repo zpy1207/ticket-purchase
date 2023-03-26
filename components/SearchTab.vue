@@ -80,7 +80,7 @@ export default {
     return {
       startCity: '',
       endCity: '',
-      startDate: new Date(),
+      startDate: '',
       date: '',
       labelStartCity: '起始地',
       labelEndCity: '目的地',
@@ -92,11 +92,16 @@ export default {
       this.startCity = this.endCity
       this.endCity = tmp
     },
+    // onChangeDate(val) {
+    //   console.log('onChangeDate', this.startDate)
+    //   this.startDate = val
+    // },
     onSearch() {
+      const formatDate = `${this.startDate.getFullYear()}-${padding(this.startDate.getMonth()+1)}-${padding(this.startDate.getDate())}`
       this.$emit('onSearch', {
         startCity: this.startCity,
         endCity: this.endCity,
-        startDate: this.startDate.getTime()
+        startDate: formatDate
       })
     },
     onFocusStartCity() {
@@ -116,6 +121,9 @@ export default {
       }
     },
   }
+}
+function padding(num) {
+  return num >= 10 ? num : `0${num}`
 }
 </script>
 

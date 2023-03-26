@@ -24,16 +24,12 @@
           class="detailCard"
         >
           <div class="flex flex-column">
-            <div class="ticketCard">
-              <div class="detail-company-num itrTxtPair">
-                <div class="bt_focusText pd-5">
-                  {{ companyAndNumber }}
-                </div>
-                <div class="bt_focusText pd-5">
-                  {{ airlineNum }}
-                </div>
+            <div class="bt_focusText title-choose-passenger">请选择乘机人：</div>
+              <div class="passenger-card-list-container">
+                <passenger-card></passenger-card>
+                <passenger-card></passenger-card>
+                <passenger-card></passenger-card>
               </div>
-            </div>
             <div class="itrDetails clearfix">
             </div>
           </div>
@@ -46,9 +42,11 @@
 </template>
 
 <script>
+import passengerCard from '~/components/passengerCard.vue'
 // import TicketCard from "~/components/TicketCard.vue"
 
 export default {
+  components: { passengerCard },
   // components: { TicketCard }
     computed: {
     airlineNum() {

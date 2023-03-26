@@ -52,7 +52,7 @@ export default {
   proxy: {
     '/api/': {
       // target: 'http://localhost:8000/',
-      target: 'http://10.173.80.213:8765/',
+      target: 'http://10.173.80.4:8765/',
       // target: 'http://testapi.xuexiluxian.cn/',
       pathRewrite: {
         '^/api/': '/',

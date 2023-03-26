@@ -83,13 +83,13 @@ export default {
     init() {
       // get user
     },
-    onLogin(number, psd) {
+    async onLogin(number, psd) {
       // send login request
-      this.userLogin(number, psd)
+      await this.userLogin(number, psd)
       if (this.currentUser) {
         window.localStorage.setItem('user', JSON.stringify(this.currentUser))
       }
-      console.log(window.localStorage.getItem('userName'))
+      console.log(JSON.parse(window.localStorage.getItem('user')).token)
     },
     async onRegister(obj) {
       // send register request
@@ -116,7 +116,6 @@ export default {
       // console.log('onRegister')
     },
     onSearch(searchInfo) {
-      // const tmp = 1
       this.$router.push({
         path: '/searchDetail',
         query: {
@@ -127,7 +126,7 @@ export default {
     async userLogin(number, psd) {
       try {
         this.currentUser = await this.getUser(number, psd)
-        console.log(this.currentUser)
+        // console.log(this.currentUser)
         // this.currentUser = {
         //   userName: 'cxn',
         //   phone: '110'
