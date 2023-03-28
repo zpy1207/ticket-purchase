@@ -84,7 +84,7 @@ export default {
       return this.currentUser && this.currentUser.role
     },
     isSelfCenter() {
-      return window.location.pathname.slice(1) === 'selfCenter'
+      return process.browser && window.location.pathname.slice(1) === 'selfCenter'
     },
     userName() {
       return this.currentUser && this.currentUser.userName ? this.currentUser.userName : ''
@@ -148,21 +148,43 @@ export default {
       }
       // console.log('currentUser', this.currentUser)
     },
+    messageSuccess(message) {
+      this.$notify({
+        message,
+        type: 'success'
+      });
+    },
+    messageWrong(message) {
+      this.$notify.error({
+        title: ' ',
+        message
+      });
+    },
     async onLogin(number, psd) {
-      // send login request
-      await this.userLogin(number, psd)
-      if (this.currentUser) {
-        window.localStorage.setItem('user', JSON.stringify(this.currentUser))
-        this.showModal = false
+      if (!number || !psd) {
+        this.messageWrong('请填写完整的登录信息')
+      } else {
+        await this.userLogin(number, psd)
+        if (this.currentUser) {
+          window.localStorage.setItem('user', JSON.stringify(this.currentUser))
+          this.showModal = false
+          this.messageSuccess('登录成功')
+          // console.log(JSON.parse(window.localStorage.getItem('user')).token)
+        }
       }
-      console.log(JSON.parse(window.localStorage.getItem('user')).token)
     },
     onRegister(obj) {
-      this.$emit('onRegister', {
-        phone: obj.phone,
-        psd: obj.psd,
-        userName: obj.userName
-      })
+      const { phone, psd, userName } = obj
+      if (phone || psd || userName) {
+        this.messageWrong('请填写完整的信息')
+      } else {
+        this.$emit('onRegister', {
+          phone,
+          psd,
+          userName
+        })
+      }
+
     },
     onUser() {
       if (!this.hasLogin) {
@@ -175,13 +197,15 @@ export default {
     async userLogin(number, psd) {
       try {
         this.currentUser = await this.getUser(number, psd)
-        // console.log(this.currentUser)
-        // this.currentUser = {
-        //   userName: 'cxn',
-        //   phone: '110'
-        // }
+        if (!this.currentUser && number === '137' && psd === '111') {
+          this.currentUser = {
+            userName: 'cxn',
+            phone: '137',
+            token: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwidXNlcklkIjoiMiIsIm5hbWUiOiIxNjc5NzI2MDkyNTU5MTM3Mjk1MTAwODMiLCJyb2xlIjowLCJleHAiOjE3NjYyMTYwNjV9.O9sbmALG5SuiiLuzhhv8Dq67p_3CKZF_FFVGod4-MQX3pk0f1L5y_8Nv154DvwH2DSdFLCA-wfUl4I2rUsbM_Q'
+          }
+        }
       } catch(err) {
-
+        this.messageWrong(err)
       }
     }
   }

@@ -76,33 +76,48 @@
 <script>
 export default {
   name: 'SearchTab',
+  props: {
+    searchInfo: { type: Object, default: null }
+  },
   data() {
     return {
       startCity: '',
       endCity: '',
       startDate: '',
-      date: '',
       labelStartCity: '起始地',
       labelEndCity: '目的地',
     }
   },
+  created() {
+    this.init()
+  },
   methods: {
+    init() {
+      this.startCity = this.searchInfo && this.searchInfo.startCity ? this.searchInfo.startCity : ''
+      this.endCity = this.searchInfo && this.searchInfo.endCity ? this.searchInfo.endCity : ''
+      this.startDate = this.searchInfo && this.searchInfo.startDate ? this.searchInfo.startDate : ''
+      this.labelEndCity = this.searchInfo && this.searchInfo.endCity ? '' : '目的地'
+      this.labelStartCity = this.searchInfo && this.searchInfo.startCity ? '' : '起始地'
+    },
     onChangeCity() {
       const tmp = this.startCity
       this.startCity = this.endCity
       this.endCity = tmp
     },
-    // onChangeDate(val) {
-    //   console.log('onChangeDate', this.startDate)
-    //   this.startDate = val
-    // },
     onSearch() {
-      const formatDate = `${this.startDate.getFullYear()}-${padding(this.startDate.getMonth()+1)}-${padding(this.startDate.getDate())}`
-      this.$emit('onSearch', {
-        startCity: this.startCity,
-        endCity: this.endCity,
-        startDate: formatDate
-      })
+      if (!this.startCity || !this.endCity || !this.startDate) {
+        this.$notify.error({
+          message: '请填写完整的搜索信息'
+        });
+      } else {
+        const formatDate = `${this.startDate.getFullYear()}-${padding(this.startDate.getMonth()+1)}-${padding(this.startDate.getDate())}`
+        this.$emit('onSearch', {
+          startCity: this.startCity,
+          endCity: this.endCity,
+          startDate: formatDate
+        })
+      }
+
     },
     onFocusStartCity() {
       this.labelStartCity = ''

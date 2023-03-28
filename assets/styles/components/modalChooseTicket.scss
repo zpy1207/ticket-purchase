@@ -1,1 +1,19 @@
 @import "./ticketCard.scss";
+
+
+.checkbox-group {
+  align-items: center;
+
+  .el-checkbox {
+    margin-right: 0;
+    padding: 10px;
+  }
+
+  .el-checkbox__label {
+    font-size: 30px!important;
+  }
+
+  // .el-checkbox:last-of-type {
+  //   margin-right: 0;
+  // }
+}

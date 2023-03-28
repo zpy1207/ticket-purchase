@@ -3,7 +3,6 @@
     <header-tab
       title="home"
       :user="currentUser"
-      @onLogin="onLogin"
       @onRegister="onRegister"
     ></header-tab>
     <main>
@@ -20,6 +19,10 @@
             ></searchTab>
           </div>
         </div>
+      </div>
+
+      <div class="all-airline">
+
       </div>
 
     </main>
@@ -80,11 +83,18 @@ export default {
           url: '/api/user/auth/register',
           data
         })
+        if (user) {
+          this.$notify({
+            message: '注册成功，请登录',
+            type: 'success'
+          });
+        }
         return user
       } catch(err) {
-
+        this.$notify.error({
+          message: '注册失败，请重试'
+        });
       }
-      // console.log('onRegister')
     },
     onSearch(searchInfo) {
       this.$router.push({

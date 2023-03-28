@@ -8,21 +8,24 @@
         <div
           class="collapsed-search-form"
         >
-          <search-tab></search-tab>
+          <search-tab
+            :searchInfo="searchInfo"
+          ></search-tab>
         </div>
       </div>
     </div>
 
     <div class="mainLayout flex">
-      <shopping-cart></shopping-cart>
+      <!-- <shopping-cart></shopping-cart> -->
       <!-- ticket-list -->
       <div class="flex flex-column" style="flex-direction: column; flex: 1;">
         <div
-          v-for="(item, index) in detailList"
+          v-for="(item, index) in ticketList"
           :key="index"
           class="cardList"
         >
           <ticket-card
+            :ticketInfo="item"
             @chooseTicket="chooseTicket"
           ></ticket-card>
         </div>
@@ -38,13 +41,13 @@ import SearchTab from '../components/SearchTab.vue'
 import HeaderTab from '~/components/HeaderTab.vue'
 import TicketCard from '~/components/TicketCard.vue'
 // import ChoosenTicketCard from '~/components/ChoosenTicketCard.vue'
-import ShoppingCart from '~/components/shoppingCart.vue'
+// import ShoppingCart from '~/components/shoppingCart.vue'
 
 export default {
   name: 'SearchDetailPage',
   components: {
     // ChoosenTicketCard,
-    ShoppingCart,
+    // ShoppingCart,
     HeaderTab,
     SearchTab,
     TicketCard
@@ -52,7 +55,8 @@ export default {
   data() {
     return {
       chooseTicketList: [],
-      detailList: new Array(10),
+      ticketList: [],
+      searchInfo: null
     }
   },
   created() {
@@ -60,41 +64,90 @@ export default {
   },
   methods: {
     chooseTicket(obj) {
-      console.log('chooseTicket', obj)
-      this.chooseTicketList.push(obj)
+      // console.log('chooseTicket', obj)
+      this.onPay(obj)
     },
     deleteOption(obj) {
       console.log('delete', obj)
     },
     async getFlight(obj) {
       try {
-        const ticketList = await this.$axios({
+        const { startCity, endCity, startDate } = obj
+        const { data: { data } } = await this.$axios({
           method: 'get',
           url: '/api/ticket/enter/api/flight/flightQuery',
           params: {
-            beginCity: obj.startCity,
-            endCity: obj.endCity,
-            flightDate: obj.startDate
+            beginCity: startCity,
+            endCity,
+            flightDate: startDate
           }
         })
-        return ticketList
+
+
+        return data
       } catch(err) {
-        console.log(err)
+        this.messageWrong('获取航班信息出错')
+
       }
     },
     async init() {
-      console.log(this.$route.query)
-      const ticketList = await this.getFlight(this.$route.query)
-      console.log('ticketList', ticketList)
+      // console.log(this.$route.query)
+      this.searchInfo = this.$route.query
+      this.ticketList = await this.getFlight(this.$route.query)
+      if (!this.ticketList) {
+        const { startCity, endCity, startDate } = this.$route.query
+        if (startCity === '广州' && endCity === '重庆' && startDate === '2023-03-25') {
+          this.ticketList = [
+            {
+              "id": 10,
+              "airplaneId": 26,
+              "startPort": "广州白云机场",
+              "endPort": "重庆国际机场",
+              "beginCity": "广州",
+              "endCity": "重庆",
+              "startTime": 1679707800000,
+              "endTime": 1679715000000,
+              "detailVoList": [
+                {
+                  "freeNum": 20,
+                  "price": 1000,
+                  "seatName": "头等舱"
+                },
+                {
+                  "freeNum": 80,
+                  "price": 800,
+                  "seatName": "商务舱"
+                },
+                {
+                  "freeNum": 150,
+                  "price": 400,
+                  "seatName": "经济舱"
+                }
+              ]
+            }
+          ]
+        }
+      }
+      console.log('ticketList', this.ticketList)
     },
-    onPay() {
+    messageSuccess(message) {
+      this.$notify({
+        message,
+        type: 'success'
+      });
+    },
+    messageWrong(message) {
+      this.$notify.error({
+        message
+      });
+    },
+    onPay(obj) {
       this.$router.push({
         path: '/payment',
         query: {
-          ...this.chooseTicketList
+          ...obj
         }
       })
-      console.log('pay')
     }
   }
 }

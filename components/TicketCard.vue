@@ -38,7 +38,7 @@
                 {{ companyAndNumber }}
               </div>
               <div class="bt_focusText pd-5">
-                {{ airlineNum }}
+                {{ airplaneId }}
               </div>
             </div>
             <div class="rest-seat ">
@@ -51,6 +51,12 @@
                 <div>rest {{ seatFirstClass }} seats</div>
                 <div>rest {{ seatSecondClass }} seats</div>
                 <div>rest {{ seatEconomyClass }} seats</div>
+              </div>
+
+              <div class="price flex flex-column floatLeft">
+                <div>{{ priceFirstClass }} 元</div>
+                <div>{{ priceSecondClass }} 元</div>
+                <div>{{ priceEconomyClass }} 元</div>
               </div>
 
             </div>
@@ -127,8 +133,8 @@ export default {
     }
   },
   computed: {
-    airlineNum() {
-      return this.ticketInfo && this.ticketInfo.airlineNum ? this.ticketInfo.airlineNum : 'airlineNum'
+    airplaneId() {
+      return this.ticketInfo && this.ticketInfo.airplaneId ? this.ticketInfo.airplaneId : 'airplaneId'
     },
     companyAndNumber() {
       return this.ticketInfo && this.ticketInfo.companyAndNumber ? this.ticketInfo.companyAndNumber : '公司名-飞机编号'
@@ -137,37 +143,67 @@ export default {
       return this.showDetail ? 'el-icon-arrow-up' : 'el-icon-arrow-down'
     },
     duration() {
-      return this.ticketInfo && this.ticketInfo.duration ? this.ticketInfo.duration : 'duration'
+      return this.ticketInfo.startTime && this.ticketInfo.endTime ? `${(this.ticketInfo.endTime - this.ticketInfo.startTime) / 1000 / 60} min` : 'duration'
     },
     endAddress() {
-      return this.ticketInfo && this.ticketInfo.endAddress ? this.ticketInfo.endAddress : 'endAddress'
+      return this.ticketInfo && this.ticketInfo.endCity ? this.ticketInfo.endCity : 'endAddress'
     },
     endDate() {
-      return this.ticketInfo && this.ticketInfo.endDate ? this.ticketInfo.endDate : 'endDate'
+      if (this.ticketInfo && this.ticketInfo.endTime) {
+        const date = new Date(this.ticketInfo.endTime)
+        return `${padding(date.getMonth()+1)}月${padding(date.getDate())}日`
+      }
+      return 'endDate'
     },
     endTime() {
-      return this.ticketInfo && this.ticketInfo.endTime ? this.ticketInfo.endTime : 'endTime'
+      if (this.ticketInfo && this.ticketInfo.endTime) {
+        const date = new Date(this.ticketInfo.endTime)
+        return `${padding(date.getHours())} : ${padding(date.getMinutes())}`
+      }
+      return 'endTime'
     },
     price() {
-      return this.ticketInfo && this.ticketInfo.price ? this.ticketInfo.price : 'price'
+      if (this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList)) {
+        const arr = this.ticketInfo.detailVoList.filter((e) => e.freeNum > 0)
+        arr.sort((a, b) => (a.price - b.price))
+        return `${arr[0].price} 元起`
+      }
+      return 'price'
+    },
+    priceEconomyClass() {
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '经济舱').price  : 'priceEconomyClass'
+    },
+    priceFirstClass() {
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '头等舱').price  : 'priceFirstClass'
+    },
+    priceSecondClass() {
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '商务舱').price  : 'priceSecondClass'
     },
     seatEconomyClass() {
-      return this.ticketInfo && this.ticketInfo.seatEconomyClass ? this.ticketInfo.seatEconomyClass : 'seatEconomyClass'
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '经济舱').freeNum  : 'seatEconomyClass'
     },
     seatFirstClass() {
-      return this.ticketInfo && this.ticketInfo.seatFirstClass ? this.ticketInfo.seatFirstClass : 'seatFirstClass'
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '头等舱').freeNum  : 'seatFirstClass'
     },
     seatSecondClass() {
-      return this.ticketInfo && this.ticketInfo.seatSecondClass ? this.ticketInfo.seatSecondClass : 'seatSecondClass'
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '商务舱').freeNum  : 'seatSecondClass'
     },
     startAddress() {
-      return this.ticketInfo && this.ticketInfo.startAddress ? this.ticketInfo.startAddress : 'startAddress'
+      return this.ticketInfo && this.ticketInfo.beginCity ? this.ticketInfo.beginCity : 'startAddress'
     },
     startDate() {
-      return this.ticketInfo && this.ticketInfo.startDate ? this.ticketInfo.startDate : 'startDate'
+      if (this.ticketInfo && this.ticketInfo.startTime) {
+        const date = new Date(this.ticketInfo.startTime)
+        return `${padding(date.getMonth()+1)}月${padding(date.getDate())}日`
+      }
+      return 'startDate'
     },
     startTime() {
-      return this.ticketInfo && this.ticketInfo.startTime ? this.ticketInfo.startTime : 'startTime'
+      if (this.ticketInfo && this.ticketInfo.startTime) {
+        const date = new Date(this.ticketInfo.startTime)
+        return `${padding(date.getHours())} : ${padding(date.getMinutes())}`
+      }
+      return 'startTime'
     },
   },
   methods: {
@@ -181,18 +217,21 @@ export default {
       this.showDetail = !this.showDetail
     },
     chooseTicket(obj) {
+      const { selectedClass } = obj
+      const choosenClass = this.ticketInfo.detailVoList.find((e) => e.seatName === selectedClass)
+      debugger
       this.$emit('chooseTicket',{
-        ...obj,
-        companyAndNumber: this.companyAndNumber,
-        airlineNum: this.airlineNum,
-        startTime: this.startTime,
-        startDate: this.startDate,
-        endTime: this.endTime,
-        duration: this.duration
+        choosenClass: JSON.stringify(choosenClass),
+        ...this.ticketInfo
       })
       this.showModal = false
     }
   }
+}
+
+function padding(num) {
+  return num < 10 ? `0${num}` : num
+
 }
 </script>
 
