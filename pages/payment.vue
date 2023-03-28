@@ -11,28 +11,9 @@
             <div
               v-if="ticketInfo"
             >
-              <div class="ticketCard">
-                <div class="company itrTxtPair">
-                  <div class="bt_focusText">
-                    {{ companyAndNumber }}
-                  </div>
-                </div>
-                <div class="time itrTxtPair">
-                  <div class="bt_focusText">{{ startTime }} - {{ endTime }}</div>
-                  <div class="start-date">起飞日期： {{ startDate }}</div>
-                </div>
-                <div class="air-class itrTxtPair">
-                  <div class="bt_focusText">
-                    {{ airClass }}
-                  </div>
-                </div>
-                <div class="price itrTxtPair">
-                  <div class="bt_focusText">
-                    {{ price }} 元
-                  </div>
-                </div>
-
-              </div>
+              <ticket-outline
+                :ticketInfo="ticketInfo"
+              ></ticket-outline>
             </div>
 
 
@@ -83,7 +64,7 @@
           v-if="showModal"
         >
           <modal-add-passenger
-            @updatePanegerList="getPassengerList"
+            @updatePanegerList="updatePanegerList"
             @closeModal="closeModal"
           ></modal-add-passenger>
         </div>
@@ -115,57 +96,23 @@ export default {
       ticketInfo: null
     }
   },
-  computed: {
-    airClass() {
-      return this.choosenClass && this.choosenClass.seatName ? this.choosenClass.seatName : ''
-    },
-    choosenClass() {
-      return this.ticketInfo && this.ticketInfo.choosenClass ? JSON.parse(this.ticketInfo.choosenClass) : null
-    },
-    companyAndNumber() {
-      return this.ticketInfo && this.ticketInfo.companyAndNumber ? this.ticketInfo.companyAndNumber : '公司名-飞机编号'
-    },
-    duration() {
-      return this.ticketInfo.startTime && this.ticketInfo.endTime ? `${(this.ticketInfo.endTime - this.ticketInfo.startTime) / 1000 / 60} min` : 'duration'
-    },
-    endAddress() {
-      return this.ticketInfo && this.ticketInfo.endCity ? this.ticketInfo.endCity : 'endAddress'
-    },
-    endTime() {
-      if (this.ticketInfo && this.ticketInfo.endTime) {
-        const date = new Date(Number(this.ticketInfo.endTime))
-        return `${padding(date.getHours())} : ${padding(date.getMinutes())}`
-      }
-      return 'endTime'
-    },
-    price() {
-      return this.choosenClass && this.choosenClass.price ?  this.choosenClass.price : 'price'
-    },
-    startAddress() {
-      return this.ticketInfo && this.ticketInfo.beginCity ? this.ticketInfo.beginCity : 'startAddress'
-    },
-    startDate() {
-      if (this.ticketInfo && this.ticketInfo.startTime) {
-        const date = new Date(Number(this.ticketInfo.startTime))
-        return `${padding(date.getMonth()+1)}月${padding(date.getDate())}日`
-      }
-      return 'startDate'
-    },
-    startTime() {
-      if (this.ticketInfo && this.ticketInfo.startTime) {
-        const date = new Date(Number(this.ticketInfo.startTime))
-        return `${padding(date.getHours())} : ${padding(date.getMinutes())}`
-      }
-      return 'startTime'
-    },
-  },
+
   async created() {
-    await this.getPassengerList()
+    await this.updatePanegerList()
     this.init()
   },
   methods: {
     closeModal() {
       this.showModal = false
+    },
+    createOrder() {
+      const data = {
+        flightId: this.airplaneId,
+        passengerId: this.selectedPassengers.map((e) => e.id),
+        seatName: this.airClass
+      }
+      console.log('data', data)
+      return true
     },
     async getPassengerList() {
       try {
@@ -178,8 +125,7 @@ export default {
           method: 'get',
           url: '/api/user/api/passenger/list',
         })
-        console.log(data)
-        this.passengerList = data
+        return data
       } catch(err) {
 
       }
@@ -192,8 +138,17 @@ export default {
     onClickAddPassenger() {
       this.showModal = true
     },
-    onPay() {
-      console.log(this.selectedPassengers)
+    async onPay() {
+      const state = this.createOrder()
+      if (state) {
+        this.$notify({
+          type: 'success',
+          message: '订单创建成功，即将转到订单页面'
+        })
+        const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+        await sleep(3000)
+        this.$router.push('/myOrder')
+      }
     },
     selectPassenger(obj, selected) {
       if (selected) {
@@ -201,15 +156,19 @@ export default {
       } else {
         this.selectedPassengers = this.selectedPassengers.filter((p) => p.id !== obj.id)
       }
-
+    },
+    async updatePanegerList() {
+      const list = await this.getPassengerList()
+      if (!list) {
+        this.passengerList = [{id: 2, identifyCard: "110", firstName: "peiyi", lastName: "zeng"}]
+      } else {
+        this.passengerList = list
+      }
     }
 
   }
 }
 
-function padding(num) {
-  return num < 10 ? `0${num}` : num
-}
 </script>
 
 <style lang="scss" scoped>

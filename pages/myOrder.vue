@@ -4,6 +4,8 @@
       :user="user"
     ></header-tab>
 
+    <ticket-card></ticket-card>
+
     my-order
   </div>
 </template>

@@ -143,7 +143,7 @@ export default {
       return this.showDetail ? 'el-icon-arrow-up' : 'el-icon-arrow-down'
     },
     duration() {
-      return this.ticketInfo.startTime && this.ticketInfo.endTime ? `${(this.ticketInfo.endTime - this.ticketInfo.startTime) / 1000 / 60} min` : 'duration'
+      return this.ticketInfo && this.ticketInfo.startTime && this.ticketInfo.endTime ? `${(this.ticketInfo.endTime - this.ticketInfo.startTime) / 1000 / 60} min` : 'duration'
     },
     endAddress() {
       return this.ticketInfo && this.ticketInfo.endCity ? this.ticketInfo.endCity : 'endAddress'

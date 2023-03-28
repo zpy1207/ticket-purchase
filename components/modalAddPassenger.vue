@@ -113,14 +113,19 @@ export default {
       });
     },
     async onSubmit() {
-      const state = await this.addPassenger()
-      if(!state) {
-        this.messageWrong('添加乘机人失败')
+      if (!this.firstName || !this.lastName || !this.idCard) {
+        this.messageWrong('请填写完整的信息')
       } else {
-        this.messageSuccess('添加乘机人成功')
-        this.closeModal()
-        this.updatePanegerList()
+        const state = await this.addPassenger()
+        if(!state) {
+          this.messageWrong('添加乘机人失败')
+        } else {
+          this.messageSuccess('添加乘机人成功')
+          this.closeModal()
+          this.updatePanegerList()
+        }
       }
+
     },
     updatePanegerList() {
       this.$emit('updatePanegerList')
