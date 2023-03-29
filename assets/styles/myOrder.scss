@@ -1,0 +1,20 @@
+@import "./payment.scss";
+
+.order-container {
+  width: 80%;
+  margin-top: 20px;
+}
+
+.order-list {
+  align-items: center;
+}
+
+.title-choose-passenger {
+  font-size: 25px;
+  text-align: left;
+  padding: 10px 10px;
+}
+
+.flex-column {
+  flex-direction: column;
+}

@@ -154,6 +154,10 @@ body {
   display: flex;
 }
 
+.flex-column {
+  flex-direction: column;
+}
+
 .h-full {
   height: 100%;
 }

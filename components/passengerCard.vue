@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card-container pointer"
+    class="card-container"
     :class="klassSelected"
     @click="onSelect"
   >
@@ -21,6 +21,7 @@
 export default {
   name: 'PassengerCard',
   props: {
+    canChoose: { type: Boolean, default: true },
     passengerInfo: { type: Object, default: null }
   },
   data() {
@@ -33,7 +34,15 @@ export default {
       return this.passengerInfo && this.passengerInfo.firstName ? this.passengerInfo.firstName.toUpperCase() : 'firstName'
     },
     klassSelected() {
-      return this.selected ? 'selected' :''
+      const str = []
+      if (this.canChoose) {
+        str.push('pointer')
+        str.push('card-hover')
+      }
+      if (this.selected) {
+        str.push('selected')
+      }
+      return str.join(' ')
     },
     lastName() {
       return this.passengerInfo && this.passengerInfo.lastName ? this.passengerInfo.lastName.toUpperCase() : 'lastName'

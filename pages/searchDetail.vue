@@ -16,7 +16,6 @@
     </div>
 
     <div class="mainLayout flex">
-      <!-- <shopping-cart></shopping-cart> -->
       <!-- ticket-list -->
       <div class="flex flex-column" style="flex-direction: column; flex: 1;">
         <div
@@ -101,6 +100,7 @@ export default {
             {
               "id": 10,
               "airplaneId": 26,
+              "companyAndNumber": '南方航空公司-波音777',
               "startPort": "广州白云机场",
               "endPort": "重庆国际机场",
               "beginCity": "广州",

@@ -22,7 +22,17 @@
       </div>
 
       <div class="all-airline">
-
+        <div class="label-airline-reco">推荐航班</div>
+        <div
+          v-for="(item, index) in ticketList"
+          :key="index"
+          class="cardList"
+        >
+          <ticket-card
+            :ticketInfo="item"
+            @chooseTicket="chooseTicket"
+          ></ticket-card>
+        </div>
       </div>
 
     </main>
@@ -36,6 +46,7 @@
 import SearchTab from '../components/SearchTab.vue'
 // import SelfModal from '../components/SelfModal.vue'
 import HeaderTab from '~/components/HeaderTab.vue'
+import TicketCard from '~/components/TicketCard.vue'
 
 
 
@@ -44,12 +55,14 @@ export default {
   components: {
     SearchTab,
     // SelfModal,
-    HeaderTab
+    HeaderTab,
+    TicketCard
   },
   data() {
     return {
       currentUser: null,
-      showLogin: false
+      showLogin: false,
+      ticketList: []
     }
   },
   computed: {
@@ -58,12 +71,45 @@ export default {
     this.init()
   },
   methods: {
+    chooseTicket(obj) {
+      console.log(obj)
+      this.onPay(obj)
+    },
     logOut() {
       this.currentUser = null
       window.localStorage.clear()
     },
     init() {
       // get user
+      const data ={
+        "id": 10,
+        "airplaneId": 26,
+        "companyAndNumber": '南方航空公司-波音777',
+        "startPort": "广州白云机场",
+        "endPort": "重庆国际机场",
+        "beginCity": "广州",
+        "endCity": "重庆",
+        "startTime": 1679707800000,
+        "endTime": 1679715000000,
+        "detailVoList": [
+          {
+            "freeNum": 20,
+            "price": 1000,
+            "seatName": "头等舱"
+          },
+          {
+            "freeNum": 80,
+            "price": 800,
+            "seatName": "商务舱"
+          },
+          {
+            "freeNum": 150,
+            "price": 400,
+            "seatName": "经济舱"
+          }
+        ]
+      }
+      this.ticketList.push(data)
     },
     async onRegister(obj) {
       // send register request
@@ -104,6 +150,14 @@ export default {
         }
       })
     },
+    onPay(obj) {
+      this.$router.push({
+        path: '/payment',
+        query: {
+          ...obj
+        }
+      })
+    }
   }
 }
 </script>

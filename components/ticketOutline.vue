@@ -26,11 +26,17 @@
 <script>
 export default {
   props: {
-    ticketInfo: { type: Object, default: null }
+    ticketInfo: { type: Object, default: null },
+    orderSeat: { type: String, default: null },
+    orderPrice: { type: Number, default: null },
   },
 
   computed: {
     airClass() {
+      if (this.orderSeat) {
+        // console.log('this.orderSeat', this.orderSeat)
+        return this.orderSeat
+      }
       return this.choosenClass && this.choosenClass.seatName ? this.choosenClass.seatName : ''
     },
     airplaneId() {
@@ -40,7 +46,7 @@ export default {
       return this.ticketInfo && this.ticketInfo.choosenClass ? JSON.parse(this.ticketInfo.choosenClass) : null
     },
     companyAndNumber() {
-      return this.ticketInfo && this.ticketInfo.companyAndNumber ? this.ticketInfo.companyAndNumber : '公司名-飞机编号'
+      return this.ticketInfo && this.ticketInfo.companyAndNumber ? this.ticketInfo.companyAndNumber : ' '
     },
     duration() {
       return this.ticketInfo.startTime && this.ticketInfo.endTime ? `${(this.ticketInfo.endTime - this.ticketInfo.startTime) / 1000 / 60} min` : 'duration'
@@ -56,6 +62,9 @@ export default {
       return 'endTime'
     },
     price() {
+      if (this.orderPrice) {
+        return this.orderPrice
+      }
       return this.choosenClass && this.choosenClass.price ?  this.choosenClass.price : 'price'
     },
     startAddress() {
@@ -75,6 +84,9 @@ export default {
       }
       return 'startTime'
     },
+  },
+  created() {
+    console.log('ticketOuline', this.ticketInfo)
   },
 }
 
