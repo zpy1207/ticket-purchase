@@ -105,14 +105,33 @@ export default {
     closeModal() {
       this.showModal = false
     },
-    createOrder() {
-      const data = {
-        flightId: this.airplaneId,
-        passengerId: this.selectedPassengers.map((e) => e.id),
-        seatName: this.airClass
+    async createOrder() {
+      try{
+        const data = JSON.stringify({
+          flightId: this.ticketInfo.id,
+          passengerId: this.selectedPassengers.map((e) => e.id),
+          seatName: this.seatName
+        })
+        const token = JSON.parse(window.localStorage.getItem('user')).token
+        const { data: { data: info } } = await this.$axios({
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+          },
+          method: 'post',
+          url: '/api/order/api/order/addAndPay ',
+          data
+        })
+
+        if(info) {
+          return true
+        }
+
+        return false
+      }catch(err) {
+        return false
       }
-      console.log('data', data)
-      return true
+
     },
     async getPassengerList() {
       try {
@@ -131,15 +150,14 @@ export default {
       }
     },
     init() {
-      // console.log(this.$route.query)
       this.ticketInfo = this.$route.query
-      // console.log('ticketInfo', this.ticketInfo)
+      this.seatName = this.ticketInfo && this.ticketInfo.choosenClass ? JSON.parse(this.ticketInfo.choosenClass).seatName : null
     },
     onClickAddPassenger() {
       this.showModal = true
     },
     async onPay() {
-      const state = this.createOrder()
+      const state = await this.createOrder()
       if (state) {
         this.$notify({
           type: 'success',
@@ -148,6 +166,10 @@ export default {
         const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
         await sleep(3000)
         this.$router.push('/myOrder')
+      }else {
+        this.$notify.error({
+          message: '订单创建失败'
+        })
       }
     },
     selectPassenger(obj, selected) {

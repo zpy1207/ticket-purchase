@@ -120,7 +120,7 @@ export default {
           userName: obj.userName
         })
         // const user = await this.$axios.$post('/api/user/auth/register',data)
-        const user = await this.$axios({
+        const { data: user } = await this.$axios({
           headers: {
               'Content-Type': 'application/json'
           },
@@ -129,17 +129,24 @@ export default {
           url: '/api/user/auth/register',
           data
         })
-        if (user) {
+        // const user = {
+        //   userName: 'cxn'
+        // }
+        const { data: userName, message } = user
+        if (userName) {
           this.$notify({
             message: '注册成功，请登录',
             type: 'success'
           });
+        }else {
+          throw new Error(message)
         }
         return user
       } catch(err) {
         this.$notify.error({
-          message: '注册失败，请重试'
-        });
+          // message: '注册失败，请重试'
+          message: err.message
+        })
       }
     },
     onSearch(searchInfo) {

@@ -72,18 +72,19 @@ export default {
     async getFlight(obj) {
       try {
         const { startCity, endCity, startDate } = obj
-        const { data: { data } } = await this.$axios({
-          method: 'get',
-          url: '/api/ticket/enter/api/flight/flightQuery',
-          params: {
-            beginCity: startCity,
+        const data = JSON.stringify({
+          beginCity: startCity,
             endCity,
             flightDate: startDate
-          }
         })
 
+        const { data: {data: flights }  } = await this.$axios({
+          method: 'get',
+          url: '/api/ticket/enter/api/flight/flightQuery',
+          data
+        })
 
-        return data
+        return flights
       } catch(err) {
         this.messageWrong('获取航班信息出错')
 

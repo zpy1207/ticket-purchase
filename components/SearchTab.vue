@@ -92,10 +92,14 @@ export default {
     this.init()
   },
   methods: {
+    getFormatDate(date) {
+      const dateObj = new Date(Number(date))
+      return  `${dateObj.getFullYear()}-${padding(dateObj.getMonth()+1)}-${padding(dateObj.getDate())}`
+    },
     init() {
       this.startCity = this.searchInfo && this.searchInfo.startCity ? this.searchInfo.startCity : ''
       this.endCity = this.searchInfo && this.searchInfo.endCity ? this.searchInfo.endCity : ''
-      this.startDate = this.searchInfo && this.searchInfo.startDate ? this.searchInfo.startDate : ''
+      this.startDate = this.searchInfo && this.searchInfo.startDate ? this.getFormatDate(this.searchInfo.startDate) : ''
       this.labelEndCity = this.searchInfo && this.searchInfo.endCity ? '' : '目的地'
       this.labelStartCity = this.searchInfo && this.searchInfo.startCity ? '' : '起始地'
     },
@@ -110,11 +114,12 @@ export default {
           message: '请填写完整的搜索信息'
         });
       } else {
-        const formatDate = `${this.startDate.getFullYear()}-${padding(this.startDate.getMonth()+1)}-${padding(this.startDate.getDate())}`
+        // const formatDate = `${this.startDate.getFullYear()}-${padding(this.startDate.getMonth()+1)}-${padding(this.startDate.getDate())}`
+        const timestamp = this.startDate.getTime()
         this.$emit('onSearch', {
           startCity: this.startCity,
           endCity: this.endCity,
-          startDate: formatDate
+          startDate: timestamp
         })
       }
 

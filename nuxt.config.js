@@ -52,7 +52,7 @@ export default {
   proxy: {
     '/api/': {
       // target: 'http://localhost:8000/',
-      target: 'http://10.173.80.4:8765/',
+      target: 'http://10.173.80.162:8765/',
       // target: 'http://testapi.xuexiluxian.cn/',
       pathRewrite: {
         '^/api/': '/',
@@ -61,7 +61,7 @@ export default {
       },
       onProxyReq(proxyReq) {
         if (proxyReq.getHeader("origin")) {
-          proxyReq.setHeader("origin", 'http://10.173.80.4:8765/')
+          proxyReq.setHeader("origin", 'http://10.173.80.162:8765/')
         }
       }
     }

@@ -156,14 +156,21 @@ export default {
     onFocusUsername() {
       this.labelUsername = ''
     },
-    onSubmit() {
+    async onSubmit() {
       if (this.isLogin) {
         this.$emit('onLogin', this.mobileNumber, this.psd)
-      } else {
-        this.$emit('onRegister', {
+        return
+      }
+      if (this.mobileNumber && this.psd && this.userName) {
+        await this.$emit('onRegister', {
           phone: this.mobileNumber,
           psd: this.psd,
           userName: this.userName
+        })
+        // this.isLogin = !this.isLogin
+      } else {
+        this.$notify.error({
+          message: '请填写完整的信息'
         })
       }
     },

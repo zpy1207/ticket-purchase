@@ -163,30 +163,30 @@ export default {
       return 'endTime'
     },
     price() {
-      if (this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList)) {
+      if (this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) && this.ticketInfo.detailVoList.length > 0) {
         const arr = this.ticketInfo.detailVoList.filter((e) => e.freeNum > 0)
         arr.sort((a, b) => (a.price - b.price))
-        return `${arr[0].price} 元起`
+        return arr[0] && arr[0].price ? `${arr[0].price} 元起` : 'No seat'
       }
       return 'price'
     },
     priceEconomyClass() {
-      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '经济舱').price  : 'priceEconomyClass'
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList)  && this.ticketInfo.detailVoList.length > 0 ? this.ticketInfo.detailVoList.find((e) => e.seatName === '经济舱').price  : 'priceEconomyClass'
     },
     priceFirstClass() {
-      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '头等舱').price  : 'priceFirstClass'
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList)  && this.ticketInfo.detailVoList.length > 0 ? this.ticketInfo.detailVoList.find((e) => e.seatName === '头等舱').price  : 'priceFirstClass'
     },
     priceSecondClass() {
-      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '商务舱').price  : 'priceSecondClass'
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) && this.ticketInfo.detailVoList.length > 0 ? this.ticketInfo.detailVoList.find((e) => e.seatName === '商务舱').price  : 'priceSecondClass'
     },
     seatEconomyClass() {
-      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '经济舱').freeNum  : 'seatEconomyClass'
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList)  && this.ticketInfo.detailVoList.length > 0 ? this.ticketInfo.detailVoList.find((e) => e.seatName === '经济舱').freeNum  : 'seatEconomyClass'
     },
     seatFirstClass() {
-      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '头等舱').freeNum  : 'seatFirstClass'
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) && this.ticketInfo.detailVoList.length > 0 ? this.ticketInfo.detailVoList.find((e) => e.seatName === '头等舱').freeNum  : 'seatFirstClass'
     },
     seatSecondClass() {
-      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) ? this.ticketInfo.detailVoList.find((e) => e.seatName === '商务舱').freeNum  : 'seatSecondClass'
+      return this.ticketInfo && this.ticketInfo.detailVoList && Array.isArray(this.ticketInfo.detailVoList) && this.ticketInfo.detailVoList.length > 0 ? this.ticketInfo.detailVoList.find((e) => e.seatName === '商务舱').freeNum  : 'seatSecondClass'
     },
     startAddress() {
       return this.ticketInfo && this.ticketInfo.beginCity ? this.ticketInfo.beginCity : 'startAddress'

@@ -173,12 +173,12 @@ export default {
         }
       }
     },
-    onRegister(obj) {
+    async onRegister(obj) {
       const { phone, psd, userName } = obj
-      if (phone || psd || userName) {
+      if (!phone || !psd || !userName) {
         this.messageWrong('请填写完整的信息')
       } else {
-        this.$emit('onRegister', {
+        await this.$emit('onRegister', {
           phone,
           psd,
           userName
@@ -197,9 +197,9 @@ export default {
     async userLogin(number, psd) {
       try {
         this.currentUser = await this.getUser(number, psd)
-        if (!this.currentUser && number === '137' && psd === '111') {
+        if (!this.currentUser && number === '13450385731' && psd === '123') {
           this.currentUser = {
-            userName: 'cxn',
+            userName: 'zpy',
             phone: '137',
             token: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwidXNlcklkIjoiMiIsIm5hbWUiOiIxNjc5NzI2MDkyNTU5MTM3Mjk1MTAwODMiLCJyb2xlIjowLCJleHAiOjE3NjYyMTYwNjV9.O9sbmALG5SuiiLuzhhv8Dq67p_3CKZF_FFVGod4-MQX3pk0f1L5y_8Nv154DvwH2DSdFLCA-wfUl4I2rUsbM_Q'
           }

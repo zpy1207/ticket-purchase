@@ -69,37 +69,86 @@ export default {
     this.init()
   },
   methods: {
+    async getOrderList() {
+      try {
+        // debugger
+        const token = JSON.parse(window.localStorage.getItem('user')).token
+        const { data: { data } } = await this.$axios({
+          headers: {
+              'Authorization': token
+          },
+          method: 'get',
+          url: '/api/order/api/order/getAll',
+        })
+        return data
+      } catch(err) {
+        this.$notify.error({
+          message: '获取订单列表失败'
+        })
+      }
+    },
     async init() {
       await this.initOrderList()
     },
-    initOrderList() {
-      const data = {
-      "flightPo": {
-        "id": 10,
-        "airplaneId": 26,
-        "startPort": "广州白云机场",
-        "endPort": "重庆国际机场",
-        "beginCity": "广州",
-        "endCity": "重庆",
-        "startTime": 1679707800000,
-        "endTime": 1679715000000,
-      },
-      "totalPrice": 800,
-      "orderTime": 1679707800000,
-      "payStatus": 0,
-      "payTime": 1679707800000,
-      "seatName": "商务舱",
-      "ticketVoList": [
-        {
-          "passenger": {id: 2, identifyCard: "110", firstName: "peiyi", lastName: "zeng"},
-          "price": 800,
-          "status": 0,
-          "ticketStatus": 0
-        }
-      ]
-    }
-      this.orderList.push(data)
-      this.orderList.push(data)
+    async initOrderList() {
+      this.orderList = await this.getOrderList()
+      if (!this.orderList) {
+        this.$notify.error({
+          message: '获取订单列表失败'
+        })
+      }
+      console.log('getOrderList', this.orderList)
+  //     const data = {
+  //     "flightPo": {
+  //       "id": 10,
+  //       "airplaneId": 26,
+  //       "startPort": "广州白云机场",
+  //       "endPort": "重庆国际机场",
+  //       "beginCity": "广州",
+  //       "endCity": "重庆",
+  //       "startTime": 1679707800000,
+  //       "endTime": 1679715000000,
+  //     },
+  //     "totalPrice": 800,
+  //     "orderTime": 1679707800000,
+  //     "payStatus": 2,
+  //     "payTime": 1679707800000,
+  //     "seatName": "商务舱",
+  //     "ticketVoList": [
+  //       {
+  //         "passenger": {id: 2, identifyCard: "110", firstName: "peiyi", lastName: "zeng"},
+  //         "price": 800,
+  //         "status": 0,
+  //         "ticketStatus": 0
+  //       }
+  //     ]
+  //   }
+  //     this.orderList.push(data)
+  //     this.orderList.push({
+  //     "flightPo": {
+  //       "id": 10,
+  //       "airplaneId": 26,
+  //       "startPort": "广州白云机场",
+  //       "endPort": "重庆国际机场",
+  //       "beginCity": "广州",
+  //       "endCity": "重庆",
+  //       "startTime": 1679707800000,
+  //       "endTime": 1679715000000,
+  //     },
+  //     "totalPrice": 800,
+  //     "orderTime": 1679705800000,
+  //     "payStatus": 0,
+  //     "payTime": 1679705800000,
+  //     "seatName": "商务舱",
+  //     "ticketVoList": [
+  //       {
+  //         "passenger": {id: 2, identifyCard: "110", firstName: "peiyi", lastName: "zeng"},
+  //         "price": 800,
+  //         "status": 0,
+  //         "ticketStatus": 0
+  //       }
+  //     ]
+  //   })
     }
   }
 }
